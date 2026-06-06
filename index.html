@@ -265,7 +265,7 @@
   .perf-col-leg span{
     color:#4a6a88;text-align:right;
   }
-  .perf-col-leg .lc-plan  {width:46px;}
+  .perf-col-leg .lc-plan  {width:46px;color:#38bdf8;}
   .perf-col-leg .lc-actual{width:46px;}
   .perf-col-leg .lc-var   {width:50px;}
 
@@ -292,11 +292,12 @@
     position:relative;height:9px;
     background:rgba(120,165,210,.13);border-radius:4px;overflow:visible;
   }
-  /* Plan bar (orange, muted) */
+  /* Plan bar — cyan, full opacity, sits behind actual bar */
   .perf-bar-plan{
     position:absolute;top:0;left:0;height:100%;border-radius:4px;
-    background:linear-gradient(90deg,#7a3a08,#c85f10);
-    opacity:.55;
+    background:linear-gradient(90deg,#0e6ea8,#38bdf8);
+    opacity:1;
+    box-shadow:0 0 6px rgba(56,189,248,.35);
     animation:grow 1s cubic-bezier(.2,.8,.2,1) both;
   }
   /* Actual bar (green/amber/red, solid) */
@@ -314,7 +315,7 @@
     font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
     text-align:right;
   }
-  .perf-num.plan  {width:46px;color:#4a6a88;}
+  .perf-num.plan  {width:46px;color:#38bdf8;}
   .perf-num.actual{width:46px;color:#eaf3ff;}
   .perf-num.var   {width:50px;}
   .perf-num.var.good{color:#7de89a;}
