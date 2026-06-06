@@ -152,6 +152,13 @@
   .cf-hero .big{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;line-height:1;color:#fff;margin-top:1px;position:relative;text-shadow:0 0 16px rgba(255,90,96,.6);}
   .cf-hero .big .m{font-size:15px;color:#ffd2ad;}
   .cf-hero .sub{font-size:9.5px;color:#f3c7c9;margin-top:2px;position:relative;}
+  /* Green variant — applied when net position is positive */
+  .cf-hero.pos{background:linear-gradient(135deg,#0e5c2a,#0a3d1c);border:1px solid rgba(10,100,40,.5);box-shadow:0 4px 14px rgba(20,120,60,.3);}
+  .cf-hero.pos::after{background:radial-gradient(circle, rgba(70,199,103,.4), transparent 70%);}
+  .cf-hero.pos .lab{color:#b8f0cc;}
+  .cf-hero.pos .big{text-shadow:0 0 16px rgba(70,199,103,.6);}
+  .cf-hero.pos .big .m{color:#a8e6c0;}
+  .cf-hero.pos .sub{color:#c2efd4;}
   .cf-bars{display:flex;flex-direction:column;gap:6px;}
   .cf-line .top{display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px;}
   .cf-line .top .nm{color:#aac4e0;letter-spacing:.3px;display:flex;align-items:center;gap:6px;}
@@ -862,8 +869,21 @@ function renderWorkbook(wb) {
   var inWidth  = fmtBarPct(cfMap['Cash In']  && cfMap['Cash In'][2]);
   var outWidth = fmtBarPct(cfMap['Cash Out'] && cfMap['Cash Out'][2]);
   var sign     = netVal < 0 ? '-' : '';
+  // Toggle hero color theme and subtitle based on sign
+  var hero = document.querySelector('.cf-hero');
+  if (hero) {
+    if (netVal >= 0) {
+      hero.classList.add('pos');
+    } else {
+      hero.classList.remove('pos');
+    }
+  }
+  // Dynamic subtitle: use Excel value if present, otherwise derive from sign
+  var autoSubtitle = netVal >= 0
+    ? 'Inflows exceed outflows · positive position'
+    : 'Outflow exceeds inflow · negative position';
   $('cf-net-big').innerHTML   = '<span class="m">' + sign + '</span>' + Math.abs(netVal).toFixed(1) + '<span class="m"> M</span>';
-  $('cf-sublabel').textContent = subLabel;
+  $('cf-sublabel').textContent = subLabel || autoSubtitle;
   $('cf-in-amt').textContent   = cashIn.toFixed(1)  + ' M';
   $('cf-out-amt').textContent  = cashOut.toFixed(1) + ' M';
   $('cf-in-bar').style.width   = inWidth;
