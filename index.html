@@ -292,97 +292,9 @@
   .gi-v{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.4px;color:#f2f8ff;font-variant-numeric:tabular-nums;}
   .gi-row.exp .gi-v{color:#ff7a7e;text-shadow:0 0 12px rgba(255,90,95,.5);}
 
-  /* ── Export button (screen only) ─────────────────────────── */
-  .export-pdf-btn{
-    position:fixed;
-    bottom:28px;
-    right:28px;
-    z-index:9000;
-    display:flex;
-    align-items:center;
-    gap:9px;
-    padding:11px 22px;
-    border-radius:9px;
-    border:none;
-    cursor:pointer;
-    background:linear-gradient(135deg,#e87722,#c85f10);
-    color:#fff;
-    font-family:'Barlow Condensed',sans-serif;
-    font-weight:700;
-    font-size:15px;
-    letter-spacing:1px;
-    box-shadow:0 4px 20px rgba(232,119,34,.55), 0 2px 6px rgba(0,0,0,.35);
-    transition:transform .15s, box-shadow .15s;
-  }
-  .export-pdf-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,119,34,.7);}
-  .export-pdf-btn:active{transform:translateY(0);}
-  .export-pdf-btn svg{flex:none;}
-
-  /* ── Print / PDF styles (@page inside @media print to avoid affecting screen) ── */
-  @media print{
-    @page{
-      size:A3 landscape;
-      margin:5mm;
-    }
-
-    html,
-    body{
-      margin:0 !important;
-      padding:0 !important;
-      background:#c9d4de !important;
-      overflow:visible !important;
-      print-color-adjust:exact !important;
-      -webkit-print-color-adjust:exact !important;
-    }
-
-    *{
-      print-color-adjust:exact !important;
-      -webkit-print-color-adjust:exact !important;
-    }
-
-    .export-pdf-btn,
-    .export-note,
-    #loading-overlay,
-    #error-banner{
-      display:none !important;
-    }
-
-    body{ display:block !important; }
-
-    .sheet{
-      width:100% !important;
-      max-width:100% !important;
-      margin:0 auto !important;
-      box-shadow:none !important;
-      transform:none !important;
-      zoom:1 !important;
-      height:auto !important;
-      min-height:0 !important;
-    }
-
-    .excard,
-    .chartcard,
-    .timeline-card,
-    .bottom .card{
-      break-inside:avoid !important;
-      page-break-inside:avoid !important;
-    }
-  }
 </style>
 </head>
 <body>
-
-<!-- Export to PDF button -->
-<button class="export-pdf-btn" onclick="window.print()" title="Export dashboard to PDF">
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-       stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-    <polyline points="14 2 14 8 20 8"/>
-    <line x1="12" y1="18" x2="12" y2="12"/>
-    <line x1="9" y1="15" x2="15" y2="15"/>
-  </svg>
-  Export to PDF
-</button>
 
 <!-- Loading overlay -->
 <div id="loading-overlay">
