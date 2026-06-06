@@ -540,6 +540,64 @@ function cellIsPct(c) {
 }
 
 /**
+ * fmtDate(cell) — converts an Excel date cell to "dd-MMM-yy" string.
+ *
+ * Handles all three forms SheetJS can return for a date cell:
+ *   A) Already a string  "24-Jul-26", "2026-07-24"  → reformat if needed
+ *   B) JS Date object    (SheetJS cellDates:true mode, rare)  → format it
+ *   C) Excel serial int  46227  → convert via epoch math, then format
+ *
+ * Non-date values (empty, text, numbers that aren't plausible serials)
+ * are returned unchanged so the function is safe to call on any cell.
+ */
+function fmtDate(cell) {
+  var v = cell;
+  if (typeof cell === 'object' && cell !== null && 'v' in cell) v = cell.v;
+  if (v === null || v === undefined || v === '') return '';
+  var s = String(v).trim();
+
+  // ── A: already a formatted date string? ──
+  // Matches "24-Jul-26", "26-Aug-24", "02-Mar-25" etc. → return as-is
+  if (/^\d{1,2}-[A-Za-z]{3}-\d{2,4}$/.test(s)) return s;
+
+  // ── B: JS Date object ──
+  if (v instanceof Date && !isNaN(v.getTime())) return _dateToStr(v);
+
+  // ── C: Excel serial number ──
+  // Valid Excel date serials: 1 (1-Jan-1900) to ~60000 (year ~2064)
+  // We accept 1000–99999 to cover any plausible project date
+  var n = Number(s);
+  if (!isNaN(n) && n > 1000 && n < 99999 && Math.floor(n) === n) {
+    // Excel epoch: 1-Jan-1900 = serial 1
+    // JS epoch:   1-Jan-1970 = 0
+    // Offset: (70 years × 365.25 days) - 1 day (Excel's 1900 leap-year bug) = 25568 days
+    var EXCEL_EPOCH_DIFF = 25569;          // days from Excel base (1899-12-30) to JS epoch (1970-01-01)
+    var msPerDay = 86400000;
+    var jsMs = (n - EXCEL_EPOCH_DIFF) * msPerDay;
+    var d = new Date(jsMs);
+    if (!isNaN(d.getTime())) return _dateToStr(d);
+  }
+
+  // ── ISO string "2026-07-24" or "2026-07-24T00:00:00.000Z" ──
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
+    var d2 = new Date(s);
+    if (!isNaN(d2.getTime())) return _dateToStr(d2);
+  }
+
+  // Fallback: return as-is (plain text date already fine)
+  return s;
+}
+
+// Internal: format a JS Date as "dd-MMM-yy"
+function _dateToStr(d) {
+  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var day    = String(d.getUTCDate()).padStart(2, '0');
+  var mon    = MONTHS[d.getUTCMonth()];
+  var yr     = String(d.getUTCFullYear()).slice(-2);
+  return day + '-' + mon + '-' + yr;
+}
+
+/**
  * fmt(cell) — universal formatter.
  *  1. Excel pct cell  (pct=true, numeric 0-1) → "40.9%", "70%", "100%"
  *  2. String with non-numeric chars            → pass through unchanged
@@ -613,7 +671,7 @@ function renderWorkbook(wb) {
 
   // ── 2. General Info ────────────────────────────────────────
   $('gi-body').innerHTML = rows('General_Info').map(function(r){
-    var field = safe(r[0]), val = fmt(r[1]), fl = field.toLowerCase();
+    var field = safe(r[0]), val = fmtDate(r[1]), fl = field.toLowerCase();
     var rc = fl.includes('contractual tcc') ? ' tcc' : fl.includes('expected tcc') ? ' exp' : '';
     return '<div class="gi-row' + rc + '"><span class="gi-bullet"></span>' +
            '<span class="gi-k">' + field + '</span><span class="gi-v">' + val + '</span></div>';
@@ -730,7 +788,7 @@ function renderWorkbook(wb) {
     var flagPos  = safe(r[3]).toLowerCase();
     var isTCC    = safe(r[4]).toUpperCase() === 'YES';
     var tccLabel = safe(r[5]);
-    var tccDate  = safe(r[6]);
+    var tccDate  = fmtDate(r[6]);  // column G — may be serial or string
     var cls = 'm', inner = '';
     if (hasMile && mileText)
       inner += '<div class="flag' + (flagPos === 'below' ? ' below' : '') + '">' + mileText + '</div>';
