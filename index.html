@@ -289,9 +289,101 @@
   .gi-k{font-size:11px;font-weight:400;color:#aac4e0;letter-spacing:.1px;}
   .gi-v{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.4px;color:#f2f8ff;font-variant-numeric:tabular-nums;}
   .gi-row.exp .gi-v{color:#ff7a7e;text-shadow:0 0 12px rgba(255,90,95,.5);}
+
+  /* ── Export button (screen only) ─────────────────────────── */
+  #pdf-btn{
+    position:fixed;
+    bottom:28px;
+    right:28px;
+    z-index:9000;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:11px 22px;
+    border-radius:9px;
+    border:none;
+    cursor:pointer;
+    background:linear-gradient(135deg,#e87722,#c85f10);
+    color:#fff;
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:1px;
+    box-shadow:0 4px 20px rgba(232,119,34,.55), 0 2px 6px rgba(0,0,0,.35);
+    transition:transform .15s, box-shadow .15s;
+  }
+  #pdf-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,119,34,.7);}
+  #pdf-btn:active{transform:translateY(0);}
+  #pdf-btn svg{flex:none;}
+
+  /* ── Print / PDF styles ───────────────────────────────────── */
+  @media print{
+    /* Page setup: A3 landscape */
+    @page{
+      size:A3 landscape;
+      margin:8mm 8mm 8mm 8mm;
+    }
+
+    /* Hide everything that must not appear in the PDF */
+    #pdf-btn,
+    #loading-overlay,
+    #error-banner{
+      display:none !important;
+    }
+
+    /* Reset body so the sheet fills the page */
+    html, body{
+      background:#c9d4de !important;
+      padding:0 !important;
+      margin:0 !important;
+      width:100% !important;
+      height:auto !important;
+    }
+
+    /* Force the dashboard to full width, remove screen shadow */
+    .sheet{
+      width:100% !important;
+      max-width:100% !important;
+      box-shadow:none !important;
+      visibility:visible !important;   /* ensure visible even if JS hasn't run */
+    }
+
+    /* Force background colours and gradients to print */
+    *{
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+      color-adjust:exact !important;
+    }
+
+    /* Prevent any section from being clipped across pages */
+    .exrow, .chartrow, .timeline-card,
+    .bottom, .excard, .gi-card,
+    .chartcard, .card{
+      break-inside:avoid;
+      page-break-inside:avoid;
+    }
+
+    /* Keep the footer on the same page as tables */
+    .foot{ page-break-before:avoid; }
+
+    /* Remove body padding used for screen centering */
+    body{ display:block !important; }
+  }
 </style>
 </head>
 <body>
+
+<!-- Export to PDF button (hidden during printing via @media print) -->
+<button id="pdf-btn" onclick="exportPDF()" title="Export dashboard to PDF">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="12" y1="18" x2="12" y2="12"/>
+    <line x1="9" y1="15" x2="15" y2="15"/>
+  </svg>
+  Export to PDF
+</button>
 
 <!-- Loading overlay -->
 <div id="loading-overlay">
@@ -917,6 +1009,14 @@ async function loadDashboard() {
 
 // ── Boot ──
 loadDashboard();
+
+// ── Export to PDF ──
+function exportPDF() {
+  // Ensure dashboard is fully visible before printing
+  var dash = document.getElementById('dashboard');
+  if (dash) dash.style.visibility = 'visible';
+  window.print();
+}
 </script>
 </body>
 </html>
