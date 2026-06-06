@@ -316,9 +316,9 @@
   }
   .perf-num.plan  {width:46px;color:#f28c28;}
   .perf-num.actual{width:46px;color:#32d26e;}
-  .perf-num.var        {width:50px;color:#aac4e0;}
-  .perf-num.var.var-pos{color:#46c767 !important;opacity:1 !important;}
-  .perf-num.var.var-neg{color:#ff5a5f !important;opacity:1 !important;}
+  .perf-num.var{width:50px;}
+  .var-negative{color:#ff5a5f !important;opacity:1 !important;font-weight:700;}
+  .var-positive{color:#32d26e !important;opacity:1 !important;font-weight:700;}
 
   /* ---------- timeline ---------- */
   .timeline-card{
@@ -909,7 +909,7 @@ function renderWorkbook(wb) {
       '<div class="perf-nums">' +
         '<span class="perf-num plan">'   + plan.toFixed(1)   + '%</span>' +
         '<span class="perf-num actual">' + actual.toFixed(1) + '%</span>' +
-        '<span class="perf-num var ' + cls + '">' + varStr + '</span>' +
+        '<span class="perf-num var ' + (d < 0 ? 'var-negative' : 'var-positive') + '">' + varStr + '</span>' +
       '</div>' +
     '</div>';
   }
