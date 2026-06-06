@@ -319,60 +319,77 @@
   /* ── Page size ────────────────────────────────────────────── */
   @page{
     size:A3 landscape;
-    margin:0;
+    margin:4mm;
   }
 
   /* ── Print / PDF styles ───────────────────────────────────── */
   @media print{
     html,
     body{
-      width:100%;
-      height:auto;
+      margin:0 !important;
+      padding:0 !important;
+      width:100% !important;
+      height:auto !important;
+      background:#c9d4de !important;
       overflow:visible !important;
-      print-color-adjust:exact;
-      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact !important;
+      -webkit-print-color-adjust:exact !important;
     }
 
     *{
-      print-color-adjust:exact;
-      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact !important;
+      -webkit-print-color-adjust:exact !important;
     }
 
-    .export-pdf-btn{
-      display:none !important;
-    }
-
-    /* Also hide UI overlays */
+    /* Hide button and UI overlays */
+    .export-pdf-btn,
+    .export-note,
     #loading-overlay,
     #error-banner{
       display:none !important;
     }
 
-    /* Full-width sheet, no screen-only shadow */
-    html{ background:#c9d4de !important; }
-    body{ display:block !important; padding:0 !important; margin:0 !important; }
+    /* Scale and fit the whole dashboard on one A3 landscape page */
     .sheet{
       width:100% !important;
-      max-width:100% !important;
+      max-width:none !important;
+      transform:none !important;
+      zoom:0.78;
+      margin:0 auto !important;
       box-shadow:none !important;
+      page-break-inside:avoid !important;
       visibility:visible !important;
     }
 
-    /* Prevent cards, timeline, and tables breaking across pages */
-    .card,
-    .timeline-card,
-    table,
-    .chartcard,
-    .excard,
-    .gi-card,
-    .exrow,
-    .chartrow,
-    .bottom{
-      break-inside:avoid;
-      page-break-inside:avoid;
+    /* Fix timeline — no extra blank height */
+    .timeline-card{
+      min-height:unset !important;
+      height:auto !important;
+    }
+    .tl-outer{
+      padding-top:30px !important;
+      padding-bottom:34px !important;
     }
 
-    .foot{ page-break-before:avoid; }
+    /* Keep bottom tables on same page as timeline */
+    .bottom{
+      page-break-before:avoid !important;
+      break-before:avoid !important;
+    }
+
+    /* Prevent cards breaking across pages */
+    .excard,
+    .chartcard,
+    .timeline-card,
+    .bottom .card{
+      break-inside:avoid !important;
+      page-break-inside:avoid !important;
+    }
+
+    /* Footer stays attached */
+    .foot{ page-break-before:avoid !important; }
+
+    body{ display:block !important; }
   }
 </style>
 </head>
