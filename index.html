@@ -316,10 +316,9 @@
   }
   .perf-num.plan  {width:46px;color:#f28c28;}
   .perf-num.actual{width:46px;color:#32d26e;}
-  .perf-num.var   {width:50px;}
-  .perf-num.var.good{color:#7de89a;}
-  .perf-num.var.mild{color:#ffb16b;}
-  .perf-num.var.warn{color:#ff8d91;}
+  .perf-num.var        {width:50px;}
+  .perf-num.var.var-pos{color:#32d26e;}
+  .perf-num.var.var-neg{color:#ff5a5f;}
 
   /* ---------- timeline ---------- */
   .timeline-card{
@@ -753,11 +752,8 @@ function fmt(cell) {
 
 function deltaClass(d) {
   var n = parseFloat(d);
-  if (isNaN(n)) return 'warn';
-  var abs = Math.abs(n);
-  if (abs <= 2) return 'good';
-  if (abs <= 7) return 'mild';
-  return 'warn';
+  if (isNaN(n)) return 'var-neg';
+  return n >= 0 ? 'var-pos' : 'var-neg';
 }
 
 /** KPI row builder — value and tag accept raw cell objects or plain strings */
