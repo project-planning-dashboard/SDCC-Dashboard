@@ -960,10 +960,12 @@ function renderWorkbook(wb) {
 
   // ── 12. Equipment Status ───────────────────────────────────
   // Columns: # | Equipment | Vendor | PO | GAFM | FAT | Delivery | Status
+  // GAFM(r[4]) FAT(r[5]) Delivery(r[6]) passed through fmt() to detect pct flag
   $('equip-body').innerHTML = rows('Equipment_Status').map(function(r){
     var num = safe(r[0]), equip = safe(r[1]), vendor = safe(r[2]);
-    var po = safe(r[3]), gafm = safe(r[4]), fat = safe(r[5]);
-    var del = safe(r[6]), status = safe(r[7]).toUpperCase();
+    var po   = safe(r[3]);
+    var gafm = fmt(r[4]), fat = fmt(r[5]);
+    var del    = fmt(r[6]), status = safe(r[7]).toUpperCase();
     var pillCls = status === 'OK' ? 'ok' : status === 'DELAYED' ? 'del' : 'dash';
     return '<tr><td><b>' + num + '</b></td><td>' + equip + '</td><td>' + vendor +
            '</td><td class="center">' + po + '</td><td class="center">' + gafm +
