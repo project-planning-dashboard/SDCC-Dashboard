@@ -319,7 +319,7 @@
   /* ── Page size ────────────────────────────────────────────── */
   @page{
     size:A3 landscape;
-    margin:4mm;
+    margin:3mm;
   }
 
   /* ── Print / PDF styles ───────────────────────────────────── */
@@ -330,6 +330,7 @@
       padding:0 !important;
       width:100% !important;
       height:auto !important;
+      min-height:0 !important;
       background:#c9d4de !important;
       overflow:visible !important;
       print-color-adjust:exact !important;
@@ -341,7 +342,6 @@
       -webkit-print-color-adjust:exact !important;
     }
 
-    /* Hide button and UI overlays */
     .export-pdf-btn,
     .export-note,
     #loading-overlay,
@@ -349,35 +349,29 @@
       display:none !important;
     }
 
-    /* Scale and fit the whole dashboard on one A3 landscape page */
     .sheet{
       width:100% !important;
       max-width:none !important;
-      transform:none !important;
-      zoom:0.78;
-      margin:0 auto !important;
+      height:auto !important;
+      min-height:0 !important;
+      margin:0 !important;
+      padding:0 !important;
       box-shadow:none !important;
-      page-break-inside:avoid !important;
-      visibility:visible !important;
+      transform:scale(0.82);
+      transform-origin:top left;
     }
 
-    /* Fix timeline — no extra blank height */
+    body{ display:block !important; }
+
     .timeline-card{
-      min-height:unset !important;
       height:auto !important;
+      min-height:0 !important;
     }
     .tl-outer{
-      padding-top:30px !important;
-      padding-bottom:34px !important;
+      padding-top:28px !important;
+      padding-bottom:30px !important;
     }
 
-    /* Keep bottom tables on same page as timeline */
-    .bottom{
-      page-break-before:avoid !important;
-      break-before:avoid !important;
-    }
-
-    /* Prevent cards breaking across pages */
     .excard,
     .chartcard,
     .timeline-card,
@@ -385,11 +379,6 @@
       break-inside:avoid !important;
       page-break-inside:avoid !important;
     }
-
-    /* Footer stays attached */
-    .foot{ page-break-before:avoid !important; }
-
-    body{ display:block !important; }
   }
 </style>
 </head>
