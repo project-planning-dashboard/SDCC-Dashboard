@@ -212,189 +212,114 @@
   .ch-bar.tiny{justify-content:flex-start;padding-left:0;padding-right:0;}
   .ch-bar.tiny span{position:absolute;left:calc(100% + 6px);color:#aac4e0;}
 
-  /* ── Executive Performance Section ── */
-  .exec-section{
-    display:flex;flex-direction:column;gap:0;
-    padding:0 14px 12px;
-  }
+  /* ── Performance Charts Section ── */
+  .perf-section{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:8px 14px 12px;}
 
-  /* KPI strip */
-  .exec-kpi-strip{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
-    margin-bottom:10px;
-  }
-  .exec-kpi{
-    position:relative;border-radius:10px;overflow:hidden;isolation:isolate;
-    background:linear-gradient(165deg,#15294a 0%,#0c1c38 55%,#08142a 100%);
-    border:1px solid rgba(120,190,255,.22);
-    box-shadow:0 6px 18px rgba(4,12,28,.45), inset 0 1px 0 rgba(255,255,255,.05);
-    padding:10px 14px 10px;
-    display:flex;flex-direction:column;justify-content:space-between;
-    min-height:60px;
-  }
-  .exec-kpi::before{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background-image:linear-gradient(rgba(120,190,255,.04) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(120,190,255,.04) 1px,transparent 1px);
-    background-size:18px 18px;
-  }
-  .exec-kpi .ek-label{
-    font-size:9px;letter-spacing:1.2px;text-transform:uppercase;
-    color:#7fb0e6;font-family:'Barlow Condensed',sans-serif;font-weight:600;
-    position:relative;z-index:1;
-  }
-  .exec-kpi .ek-val{
-    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;
-    line-height:1;color:#eaf3ff;position:relative;z-index:1;margin-top:3px;
-  }
-  .exec-kpi .ek-val.good{color:#46c767;text-shadow:0 0 14px rgba(70,199,103,.45);}
-  .exec-kpi .ek-val.warn{color:#ff7a7e;text-shadow:0 0 14px rgba(255,90,95,.45);}
-  .exec-kpi .ek-val.mild{color:#ffb16b;text-shadow:0 0 14px rgba(241,146,63,.45);}
-  .exec-kpi .ek-sub{
-    font-size:9.5px;color:#5a7a9a;position:relative;z-index:1;margin-top:2px;
-    font-family:'Barlow Condensed',sans-serif;letter-spacing:.3px;
-  }
-  .exec-kpi .ek-accent{
-    position:absolute;top:0;left:0;width:3px;height:100%;border-radius:10px 0 0 10px;
-  }
-  .exec-kpi .ek-accent.good{background:linear-gradient(180deg,#46c767,#1f8f3d);}
-  .exec-kpi .ek-accent.warn{background:linear-gradient(180deg,#ff5a5f,#c0181d);}
-  .exec-kpi .ek-accent.mild{background:linear-gradient(180deg,#f1923f,#c85f10);}
-  .exec-kpi .ek-accent.blue{background:linear-gradient(180deg,#38bdf8,#1d6ea8);}
-
-  /* Two-panel row */
-  .exec-panels{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-
-  /* Shared panel card */
-  .exec-card{
+  /* Shared card — same premium style as existing chartcard */
+  .perf-card{
     position:relative;border-radius:12px;overflow:hidden;isolation:isolate;
-    background:radial-gradient(120% 90% at 100% 0%, rgba(56,138,221,.18), transparent 55%),
+    background:
+      radial-gradient(120% 90% at 100% 0%, rgba(56,138,221,.18), transparent 55%),
       radial-gradient(120% 120% at 0% 100%, rgba(232,119,34,.12), transparent 55%),
       linear-gradient(165deg,#15294a 0%,#0c1c38 55%,#08142a 100%);
     border:1px solid rgba(120,190,255,.28);
     box-shadow:0 14px 30px rgba(4,12,28,.5), inset 0 1px 0 rgba(255,255,255,.06);
     display:flex;flex-direction:column;
   }
-  .exec-card::before{
+  .perf-card::before{
     content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;z-index:0;
-    background-image:linear-gradient(rgba(120,190,255,.05) 1px,transparent 1px),
+    background-image:
+      linear-gradient(rgba(120,190,255,.05) 1px,transparent 1px),
       linear-gradient(90deg,rgba(120,190,255,.05) 1px,transparent 1px);
     background-size:22px 22px;
     mask-image:radial-gradient(120% 100% at 50% 0%, #000 0%, transparent 80%);
   }
-  .exec-card::after{
+  .perf-card::after{
     content:"";position:absolute;top:0;left:0;right:0;height:2px;z-index:3;
     background:linear-gradient(90deg,transparent,#38bdf8 30%,#e87722 50%,#38bdf8 70%,transparent);
     background-size:220% 100%;box-shadow:0 0 16px rgba(56,189,248,.7);
     animation:scan 7s linear infinite;
   }
-  .exec-card-head{
+  .perf-head{
     position:relative;z-index:2;
     display:flex;align-items:center;justify-content:space-between;
-    padding:10px 16px 9px;
+    padding:11px 18px 10px;
     border-bottom:1px solid rgba(120,190,255,.14);
     background:linear-gradient(180deg,rgba(56,138,221,.12),transparent);
   }
-  .exec-card-head .ttl{
+  .perf-head .ttl{
     display:flex;align-items:center;gap:8px;
-    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
-    letter-spacing:1px;text-transform:uppercase;color:#eaf3ff;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;
+    letter-spacing:.9px;text-transform:uppercase;color:#eaf3ff;
     text-shadow:0 0 12px rgba(120,190,255,.4);
   }
-  .exec-card-head .ttl .dot{
+  .perf-head .ttl .dot{
     width:8px;height:8px;border-radius:50%;background:var(--orange);flex:none;
     animation:pulse-dot 2.6s ease-in-out infinite;
   }
-  .exec-card-head .leg{
-    display:flex;gap:12px;font-size:9.5px;color:#6a8fb0;
+  /* Column legend — Plan / Actual / Variance */
+  .perf-col-leg{
+    display:flex;gap:0;font-family:'Barlow Condensed',sans-serif;
+    font-size:9px;letter-spacing:.8px;text-transform:uppercase;
   }
-  .exec-card-head .leg span{display:flex;align-items:center;gap:5px;}
-  .exec-card-head .leg i{
-    display:inline-block;width:10px;height:10px;border-radius:2px;flex:none;
+  .perf-col-leg span{
+    color:#4a6a88;text-align:right;
   }
-  .exec-card-body{position:relative;z-index:2;padding:8px 16px 10px;flex:1;display:flex;flex-direction:column;gap:6px;}
+  .perf-col-leg .lc-plan  {width:46px;}
+  .perf-col-leg .lc-actual{width:46px;}
+  .perf-col-leg .lc-var   {width:50px;}
 
-  /* Bullet chart row */
-  .bullet-row{display:flex;flex-direction:column;gap:2px;}
-  .bullet-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
-  .bullet-name{font-size:11px;font-weight:500;color:#c4d6ea;letter-spacing:.2px;}
-  .bullet-values{display:flex;align-items:center;gap:8px;}
-  .bullet-actual-num{
-    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:#eaf3ff;
+  /* Body */
+  .perf-body{position:relative;z-index:2;padding:6px 18px 10px;flex:1;display:flex;flex-direction:column;gap:0;}
+
+  /* One row per phase / city */
+  .perf-row{
+    display:flex;align-items:center;gap:8px;
+    padding:6px 0;
+    border-bottom:1px solid rgba(120,190,255,.06);
   }
-  .bullet-plan-num{font-size:10px;color:#4a6a88;}
-  .bullet-var{
-    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;
-    padding:1px 6px;border-radius:8px;min-width:42px;text-align:center;
+  .perf-row:last-child{border-bottom:none;}
+
+  /* Label */
+  .perf-label{
+    font-size:11px;font-weight:500;color:#bcd6f0;letter-spacing:.2px;
+    flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
-  .bullet-var.good{color:#7de89a;background:rgba(70,199,103,.14);border:1px solid rgba(70,199,103,.35);}
-  .bullet-var.mild{color:#ffb16b;background:rgba(241,146,63,.14);border:1px solid rgba(241,146,63,.35);}
-  .bullet-var.warn{color:#ff8d91;background:rgba(255,90,95,.14);border:1px solid rgba(255,90,95,.35);}
-  /* Track with plan marker */
-  .bullet-track{position:relative;height:12px;background:rgba(120,165,210,.12);border-radius:4px;overflow:visible;}
-  .bullet-track-bg{height:100%;border-radius:4px;background:rgba(120,165,210,.1);}
-  /* Actual fill */
-  .bullet-fill{
-    position:absolute;top:2px;left:0;height:8px;border-radius:3px;
+
+  /* Inline bullet track (fills remaining space) */
+  .perf-track-wrap{flex:2;display:flex;flex-direction:column;gap:3px;}
+  .perf-track{
+    position:relative;height:9px;
+    background:rgba(120,165,210,.13);border-radius:4px;overflow:visible;
+  }
+  /* Plan bar (orange, muted) */
+  .perf-bar-plan{
+    position:absolute;top:0;left:0;height:100%;border-radius:4px;
+    background:linear-gradient(90deg,#7a3a08,#c85f10);
+    opacity:.55;
     animation:grow 1s cubic-bezier(.2,.8,.2,1) both;
   }
-  .bullet-fill.good{background:linear-gradient(90deg,#177033,#46c767);box-shadow:0 0 8px rgba(70,199,103,.4);}
-  .bullet-fill.mild{background:linear-gradient(90deg,#a84e0c,#f1923f);box-shadow:0 0 8px rgba(241,146,63,.4);}
-  .bullet-fill.warn{background:linear-gradient(90deg,#a01620,#ff5a5f);box-shadow:0 0 8px rgba(255,90,95,.4);}
-  /* Plan marker line */
-  .bullet-plan-line{
-    position:absolute;top:-2px;width:2px;height:16px;
-    background:#38bdf8;border-radius:1px;
-    box-shadow:0 0 6px rgba(56,189,248,.8);z-index:2;
-  }
-  /* Divider between bullets */
-  .bullet-divider{border:none;border-top:1px solid rgba(120,190,255,.07);margin:2px 0;}
-
-  /* City ranking rows */
-  .city-rank-row{
-    display:flex;align-items:center;gap:10px;
-    padding:6px 0;border-bottom:1px solid rgba(120,190,255,.07);
-    position:relative;
-  }
-  .city-rank-row:last-child{border-bottom:none;}
-  .city-rank-num{
-    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;
-    color:#3a5a78;width:18px;text-align:center;flex:none;
-  }
-  .city-rank-name{
-    font-size:11px;font-weight:500;color:#c4d6ea;width:58px;flex:none;letter-spacing:.2px;
-  }
-  .city-rank-bar-wrap{flex:1;position:relative;height:18px;background:rgba(120,165,210,.1);border-radius:5px;overflow:hidden;}
-  .city-rank-bar-fill{
-    position:absolute;left:0;top:0;height:100%;border-radius:5px;
-    display:flex;align-items:center;padding-right:8px;justify-content:flex-end;
+  /* Actual bar (green/amber/red, solid) */
+  .perf-bar-actual{
+    position:absolute;top:0;left:0;height:100%;border-radius:4px;
     animation:grow 1s cubic-bezier(.2,.8,.2,1) both;
   }
-  .city-rank-bar-fill span{
-    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:#fff;
-    position:relative;z-index:1;
+  .perf-bar-actual.good{background:linear-gradient(90deg,#177033,#46c767);box-shadow:0 0 7px rgba(70,199,103,.4);}
+  .perf-bar-actual.mild{background:linear-gradient(90deg,#a84e0c,#f1923f);box-shadow:0 0 7px rgba(241,146,63,.4);}
+  .perf-bar-actual.warn{background:linear-gradient(90deg,#a01620,#ff5a5f);box-shadow:0 0 7px rgba(255,90,95,.4);}
+
+  /* Three numeric columns — Plan % / Actual % / Variance */
+  .perf-nums{display:flex;gap:0;flex:none;}
+  .perf-num{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
+    text-align:right;
   }
-  /* Plan marker on city bar */
-  .city-plan-line{
-    position:absolute;top:0;width:2px;height:100%;
-    background:rgba(56,189,248,.7);border-radius:1px;z-index:2;
-    box-shadow:0 0 5px rgba(56,189,248,.7);
-  }
-  .city-rank-var{
-    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;
-    width:46px;text-align:right;flex:none;
-  }
-  .city-rank-badge{
-    flex:none;font-size:8.5px;font-weight:700;letter-spacing:.4px;
-    padding:2px 6px;border-radius:8px;text-transform:uppercase;
-    font-family:'Barlow Condensed',sans-serif;
-  }
-  .city-rank-badge.best{
-    background:rgba(70,199,103,.18);color:#7de89a;border:1px solid rgba(70,199,103,.4);
-  }
-  .city-rank-badge.worst{
-    background:rgba(255,90,95,.16);color:#ff8d91;border:1px solid rgba(255,90,95,.4);
-  }
+  .perf-num.plan  {width:46px;color:#4a6a88;}
+  .perf-num.actual{width:46px;color:#eaf3ff;}
+  .perf-num.var   {width:50px;}
+  .perf-num.var.good{color:#7de89a;}
+  .perf-num.var.mild{color:#ffb16b;}
+  .perf-num.var.warn{color:#ff8d91;}
 
   /* ---------- timeline ---------- */
   .timeline-card{
@@ -578,65 +503,35 @@
 
   </div><!-- /exrow -->
 
-  <!-- EXECUTIVE PERFORMANCE SECTION -->
-  <div class="exec-section">
+  <!-- PERFORMANCE SECTION: Project Phases & City Progress -->
+  <div class="perf-section">
 
-    <!-- KPI strip -->
-    <div class="exec-kpi-strip" id="exec-kpi-strip">
-      <div class="exec-kpi">
-        <div class="ek-accent blue"></div>
-        <div class="ek-label">Best Performing City</div>
-        <div class="ek-val good" id="kpi-best-city">&mdash;</div>
-        <div class="ek-sub" id="kpi-best-sub"></div>
+    <!-- LEFT: Project Phases — Plan vs Actual -->
+    <div class="perf-card">
+      <div class="perf-head">
+        <div class="ttl"><span class="dot"></span>Project Phases &mdash; Plan vs Actual</div>
+        <div class="perf-col-leg">
+          <span class="lc-plan">Plan</span>
+          <span class="lc-actual">Actual</span>
+          <span class="lc-var">Var.</span>
+        </div>
       </div>
-      <div class="exec-kpi">
-        <div class="ek-accent warn"></div>
-        <div class="ek-label">Most Delayed City</div>
-        <div class="ek-val warn" id="kpi-worst-city">&mdash;</div>
-        <div class="ek-sub" id="kpi-worst-sub"></div>
-      </div>
-      <div class="exec-kpi">
-        <div class="ek-accent mild"></div>
-        <div class="ek-label">Overall Variance</div>
-        <div class="ek-val" id="kpi-overall-var">&mdash;</div>
-        <div class="ek-sub">Project Phases Overall</div>
-      </div>
-      <div class="exec-kpi">
-        <div class="ek-accent blue"></div>
-        <div class="ek-label">Cities Above Target</div>
-        <div class="ek-val" id="kpi-above-target">&mdash;</div>
-        <div class="ek-sub">Out of total cities</div>
-      </div>
+      <div class="perf-body" id="phases-body"><!-- populated by JS --></div>
     </div>
 
-    <!-- Two panels -->
-    <div class="exec-panels">
-
-      <!-- LEFT: Bullet Chart — Project Phases -->
-      <div class="exec-card">
-        <div class="exec-card-head">
-          <div class="ttl"><span class="dot"></span>Project Phase Performance</div>
-          <div class="leg">
-            <span><i style="background:#38bdf8;border-radius:1px;width:2px;height:10px;"></i>Plan Target</span>
-            <span><i style="background:linear-gradient(90deg,#177033,#46c767);"></i>Actual</span>
-          </div>
+    <!-- RIGHT: Progress per City — Plan vs Actual -->
+    <div class="perf-card">
+      <div class="perf-head">
+        <div class="ttl"><span class="dot"></span>Progress per City &mdash; Plan vs Actual</div>
+        <div class="perf-col-leg">
+          <span class="lc-plan">Plan</span>
+          <span class="lc-actual">Actual</span>
+          <span class="lc-var">Var.</span>
         </div>
-        <div class="exec-card-body" id="phases-body"><!-- populated by JS --></div>
       </div>
-
-      <!-- RIGHT: City Ranking -->
-      <div class="exec-card">
-        <div class="exec-card-head">
-          <div class="ttl"><span class="dot"></span>City Performance Ranking</div>
-          <div class="leg">
-            <span><i style="background:#38bdf8;border-radius:1px;width:2px;height:10px;"></i>Plan</span>
-            <span><i style="background:linear-gradient(90deg,#177033,#46c767);"></i>Actual</span>
-          </div>
-        </div>
-        <div class="exec-card-body" id="city-body"><!-- populated by JS --></div>
-      </div>
-
+      <div class="perf-body" id="city-body"><!-- populated by JS --></div>
     </div>
+
   </div>
 
   <!-- TIMELINE -->
@@ -983,120 +878,48 @@ function renderWorkbook(wb) {
   $('mp-donut-indirect').setAttribute('stroke-dasharray',  ip.toFixed(1) + ' ' + (CIRC-ip).toFixed(1));
   $('mp-donut-indirect').setAttribute('stroke-dashoffset', String(-(dp - 25)));
 
-  // ── 8. Project Phases — Bullet Chart ──────────────────────
-  // Columns: Phase | Plan % | Actual % | Delta | Delta Color | Notes
-  var phaseData = rows('Project_Phases').map(function(r){
-    return {
-      name:   safe(r[0]),
-      plan:   parseFloat(cellVal(r[1])) || 0,
-      actual: parseFloat(cellVal(r[2])) || 0,
-      color:  safe(r[4])
-    };
-  });
-
-  // Derive KPI: overall variance from first row
-  var overallPhase = phaseData[0] || {plan:0, actual:0};
-  var overallVar   = Math.round((overallPhase.actual - overallPhase.plan) * 10) / 10;
-  var ovc          = deltaClass(String(overallVar));
-
-  $('kpi-overall-var').textContent = (overallVar >= 0 ? '+' : '') + overallVar + '%';
-  $('kpi-overall-var').className   = 'ek-val ' + ovc;
-
-  // Build bullet chart rows (skip first "Overall" row — shown in KPI strip)
-  var maxPlan = 100;
-  $('phases-body').innerHTML = phaseData.map(function(r, idx){
-    var d      = Math.round((r.actual - r.plan) * 10) / 10;
-    var cls    = r.color || deltaClass(String(d));
-    var planPx = (r.plan   / maxPlan * 100).toFixed(1);
-    var actPx  = (r.actual / maxPlan * 100).toFixed(1);
+  // ── 8. Project Phases — Plan / Actual / Variance from Excel ──
+  // Columns: Phase | Plan % | Actual % | Delta (col D, formula) | Color (col E) | Notes
+  function buildPerfRow(name, plan, actual, colorHint) {
+    var d      = Math.round((actual - plan) * 10) / 10;   // float-safe
+    var cls    = colorHint || deltaClass(String(d));
     var varStr = (d >= 0 ? '+' : '') + d + '%';
-    var divider= idx > 0 ? '<hr class="bullet-divider">' : '';
-    return divider +
-      '<div class="bullet-row">' +
-        '<div class="bullet-meta">' +
-          '<span class="bullet-name">' + r.name + '</span>' +
-          '<div class="bullet-values">' +
-            '<span class="bullet-actual-num">' + r.actual.toFixed(1) + '</span>' +
-            '<span class="bullet-plan-num">/ ' + r.plan.toFixed(1) + '</span>' +
-            '<span class="bullet-var ' + cls + '">' + varStr + '</span>' +
-          '</div>' +
+    return '<div class="perf-row">' +
+      '<span class="perf-label">' + name + '</span>' +
+      '<div class="perf-track-wrap">' +
+        '<div class="perf-track">' +
+          '<div class="perf-bar-plan"   style="width:' + plan   + '%"></div>' +
+          '<div class="perf-bar-actual ' + cls + '" style="width:' + actual + '%"></div>' +
         '</div>' +
-        '<div class="bullet-track">' +
-          '<div class="bullet-fill ' + cls + '" style="width:' + actPx + '%"></div>' +
-          '<div class="bullet-plan-line" style="left:' + planPx + '%"></div>' +
-        '</div>' +
-      '</div>';
-  }).join('');
+      '</div>' +
+      '<div class="perf-nums">' +
+        '<span class="perf-num plan">'   + plan.toFixed(1)   + '</span>' +
+        '<span class="perf-num actual">' + actual.toFixed(1) + '</span>' +
+        '<span class="perf-num var ' + cls + '">' + varStr + '</span>' +
+      '</div>' +
+    '</div>';
+  }
 
-  // ── 9. City Progress — Ranked ──────────────────────────────
-  // Columns: City | Plan % | Actual % | Delta | Delta Color | Notes
-  var cityRawData = rows('City_Progress').filter(function(r){
-    return !safe(r[0]).toLowerCase().includes('footer note');
-  }).map(function(r){
+  $('phases-body').innerHTML = rows('Project_Phases').map(function(r){
+    var name   = safe(r[0]);
     var plan   = parseFloat(cellVal(r[1])) || 0;
     var actual = parseFloat(cellVal(r[2])) || 0;
-    return {
-      name:   safe(r[0]),
-      plan:   plan,
-      actual: actual,
-      delta:  Math.round((actual - plan) * 10) / 10,
-      color:  safe(r[4]) || deltaClass(String(Math.round((actual - plan) * 10) / 10))
-    };
+    var color  = safe(r[4]);
+    return buildPerfRow(name, plan, actual, color);
+  }).join('');
+
+  // ── 9. City Progress — Plan / Actual / Variance from Excel ─
+  // Columns: City | Plan % | Actual % | Delta (col D) | Color (col E) | Notes
+  var cityRows = rows('City_Progress').filter(function(r){
+    return !safe(r[0]).toLowerCase().includes('footer note');
   });
 
-  // Sort by actual descending for ranking
-  var cityRanked = cityRawData.slice().sort(function(a,b){ return b.actual - a.actual; });
-
-  // City KPIs
-  var bestCity  = cityRanked[0] || {name:'—', actual:0, delta:0};
-  var worstCity = cityRanked[cityRanked.length - 1] || {name:'—', actual:0, delta:0};
-  var aboveTarget = cityRanked.filter(function(c){
-    return c.delta >= 0;
-  }).length;
-
-  $('kpi-best-city').textContent  = bestCity.name;
-  $('kpi-best-sub').textContent   = bestCity.actual.toFixed(1) + '% actual';
-  $('kpi-worst-city').textContent = worstCity.name;
-  $('kpi-worst-sub').textContent  = worstCity.delta + '% vs plan';
-  $('kpi-above-target').textContent = aboveTarget + ' / ' + cityRanked.length;
-  var atc = aboveTarget >= Math.ceil(cityRanked.length / 2) ? 'good' : aboveTarget > 0 ? 'mild' : 'warn';
-  $('kpi-above-target').className = 'ek-val ' + atc;
-
-  var maxBar = 100;
-  $('city-body').innerHTML = cityRanked.map(function(r, idx){
-    var rank      = idx + 1;
-    var barPct    = (r.actual / maxBar * 100).toFixed(1);
-    var planPct   = (r.plan   / maxBar * 100).toFixed(1);
-    var varStr    = (r.delta >= 0 ? '+' : '') + r.delta + '%';
-    var varColor  = r.delta >= 0 ? 'var(--green)' : r.color === 'warn' ? '#ff7a7e' : '#ffb16b';
-    var isFirst   = idx === 0;
-    var isLast    = idx === cityRanked.length - 1;
-    var fillGrad  = isFirst
-      ? 'linear-gradient(90deg,#177033,#46c767)'
-      : isLast
-        ? 'linear-gradient(90deg,#a01620,#ff5a5f)'
-        : r.color === 'good'
-          ? 'linear-gradient(90deg,#177033,#46c767)'
-          : r.color === 'mild'
-            ? 'linear-gradient(90deg,#a84e0c,#f1923f)'
-            : 'linear-gradient(90deg,#a84e0c,#f1923f)';
-    var badge = isFirst
-      ? '<span class="city-rank-badge best">Best</span>'
-      : isLast
-        ? '<span class="city-rank-badge worst">Delayed</span>'
-        : '';
-    return '<div class="city-rank-row">' +
-      '<span class="city-rank-num">' + rank + '</span>' +
-      '<span class="city-rank-name">' + r.name + '</span>' +
-      '<div class="city-rank-bar-wrap">' +
-        '<div class="city-rank-bar-fill" style="width:' + barPct + '%;background:' + fillGrad + '">' +
-          '<span>' + r.actual.toFixed(1) + '%</span>' +
-        '</div>' +
-        '<div class="city-plan-line" style="left:' + planPct + '%"></div>' +
-      '</div>' +
-      '<span class="city-rank-var" style="color:' + varColor + '">' + varStr + '</span>' +
-      badge +
-    '</div>';
+  $('city-body').innerHTML = cityRows.map(function(r){
+    var name   = safe(r[0]);
+    var plan   = parseFloat(cellVal(r[1])) || 0;
+    var actual = parseFloat(cellVal(r[2])) || 0;
+    var color  = safe(r[4]);
+    return buildPerfRow(name, plan, actual, color);
   }).join('');
 
   // ── 10. Timeline ───────────────────────────────────────────
