@@ -300,14 +300,18 @@
     box-shadow:0 0 6px rgba(56,189,248,.35);
     animation:grow 1s cubic-bezier(.2,.8,.2,1) both;
   }
-  /* Actual bar (green/amber/red, solid) */
+  /* Actual bar: unified deep-blue — sits on top of cyan plan bar */
   .perf-bar-actual{
     position:absolute;top:0;left:0;height:100%;border-radius:4px;
+    background:linear-gradient(90deg,#1b4f8a,#2d7dd2);
+    box-shadow:0 0 7px rgba(45,125,210,.45);
     animation:grow 1s cubic-bezier(.2,.8,.2,1) both;
   }
-  .perf-bar-actual.good{background:linear-gradient(90deg,#177033,#46c767);box-shadow:0 0 7px rgba(70,199,103,.4);}
-  .perf-bar-actual.mild{background:linear-gradient(90deg,#a84e0c,#f1923f);box-shadow:0 0 7px rgba(241,146,63,.4);}
-  .perf-bar-actual.warn{background:linear-gradient(90deg,#a01620,#ff5a5f);box-shadow:0 0 7px rgba(255,90,95,.4);}
+  /* Color classes kept for VAR column — bars themselves no longer use them */
+  .perf-bar-actual.good,.perf-bar-actual.mild,.perf-bar-actual.warn{
+    background:linear-gradient(90deg,#1b4f8a,#2d7dd2);
+    box-shadow:0 0 7px rgba(45,125,210,.45);
+  }
 
   /* Three numeric columns — Plan % / Actual % / Variance */
   .perf-nums{display:flex;gap:0;flex:none;}
@@ -894,8 +898,8 @@ function renderWorkbook(wb) {
         '</div>' +
       '</div>' +
       '<div class="perf-nums">' +
-        '<span class="perf-num plan">'   + plan.toFixed(1)   + '</span>' +
-        '<span class="perf-num actual">' + actual.toFixed(1) + '</span>' +
+        '<span class="perf-num plan">'   + plan.toFixed(1)   + '%</span>' +
+        '<span class="perf-num actual">' + actual.toFixed(1) + '%</span>' +
         '<span class="perf-num var ' + cls + '">' + varStr + '</span>' +
       '</div>' +
     '</div>';
