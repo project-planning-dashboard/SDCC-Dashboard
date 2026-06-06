@@ -316,21 +316,17 @@
   .export-pdf-btn:active{transform:translateY(0);}
   .export-pdf-btn svg{flex:none;}
 
-  /* ── Page size ────────────────────────────────────────────── */
-  @page{
-    size:A3 landscape;
-    margin:3mm;
-  }
-
-  /* ── Print / PDF styles ───────────────────────────────────── */
+  /* ── Print / PDF styles (@page inside @media print to avoid affecting screen) ── */
   @media print{
+    @page{
+      size:A3 landscape;
+      margin:5mm;
+    }
+
     html,
     body{
       margin:0 !important;
       padding:0 !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:0 !important;
       background:#c9d4de !important;
       overflow:visible !important;
       print-color-adjust:exact !important;
@@ -349,27 +345,17 @@
       display:none !important;
     }
 
-    .sheet{
-      width:100% !important;
-      max-width:none !important;
-      height:auto !important;
-      min-height:0 !important;
-      margin:0 !important;
-      padding:0 !important;
-      box-shadow:none !important;
-      transform:scale(0.82);
-      transform-origin:top left;
-    }
-
     body{ display:block !important; }
 
-    .timeline-card{
+    .sheet{
+      width:100% !important;
+      max-width:100% !important;
+      margin:0 auto !important;
+      box-shadow:none !important;
+      transform:none !important;
+      zoom:1 !important;
       height:auto !important;
       min-height:0 !important;
-    }
-    .tl-outer{
-      padding-top:28px !important;
-      padding-bottom:30px !important;
     }
 
     .excard,
