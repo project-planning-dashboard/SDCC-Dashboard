@@ -220,14 +220,26 @@
 
   /* ---------- timeline ---------- */
   .timeline-card{
-    position:relative;border-radius:12px;overflow:hidden;padding:0;
+    position:relative;border-radius:12px;overflow:visible;padding:0;
     background:linear-gradient(180deg,#ffffff 0%, #f3f8fd 70%, #eaf2fa 100%);
     border:1px solid #c3d6ea;
     box-shadow:0 14px 30px rgba(8,24,46,.24), 0 2px 6px rgba(8,24,46,.14), inset 0 1px 0 rgba(255,255,255,.7);
     isolation:isolate;
+    /* overflow:visible lets milestone flags and TCC boxes protrude at any zoom level;
+       the top scan-line bar is clipped via its own inner wrapper (see .tl-inner-clip) */
   }
-  .timeline-card::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;z-index:2;background:linear-gradient(90deg,#15e0c4,var(--orange) 45%,#ffb16b 50%,var(--orange) 55%,#15e0c4);background-size:200% 100%;box-shadow:0 0 16px rgba(232,119,34,.7);animation:scan 6s linear infinite;}
-  .tl-outer{padding:40px 18px 48px;position:relative;}
+  /* Inner clip wrapper: contains only the card body so border-radius clipping
+     applies to the background/border but flags still protrude outside */
+  .tl-inner-clip{
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+  }
+  .timeline-card::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;z-index:2;
+    background:linear-gradient(90deg,#15e0c4,var(--orange) 45%,#ffb16b 50%,var(--orange) 55%,#15e0c4);
+    background-size:200% 100%;box-shadow:0 0 16px rgba(232,119,34,.7);animation:scan 6s linear infinite;
+    border-radius:12px 12px 0 0;pointer-events:none;}
+  .tl-outer{padding:44px 18px 52px;position:relative;}
   .tl{display:flex;gap:0;position:relative;align-items:stretch;}
   .tl .tl-label{flex:none;width:118px;position:relative;overflow:hidden;background:linear-gradient(135deg,#f1923f,#e87722);color:#fff;display:flex;flex-direction:column;justify-content:center;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.6px;line-height:1.1;border-radius:5px;padding:0 6px;box-shadow:0 3px 9px rgba(232,119,34,.4), inset 0 1px 0 rgba(255,255,255,.25), 0 0 16px rgba(232,119,34,.45);text-shadow:0 0 10px rgba(255,220,180,.5);}
   .tl .tl-label::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px);background-size:13px 13px;mask-image:radial-gradient(circle at 30% 0%,#000,transparent 75%);}
@@ -714,10 +726,12 @@
 
   <!-- TIMELINE -->
   <div class="timeline-card" style="margin:6px 14px 14px;">
-    <div class="tl-outer">
-      <div class="tl">
-        <div class="tl-label">Projects'<br>Timeline</div>
-        <div class="months" id="timeline-months"><!-- populated by JS --></div>
+    <div class="tl-inner-clip">
+      <div class="tl-outer">
+        <div class="tl">
+          <div class="tl-label">Projects'<br>Timeline</div>
+          <div class="months" id="timeline-months"><!-- populated by JS --></div>
+        </div>
       </div>
     </div>
   </div>
