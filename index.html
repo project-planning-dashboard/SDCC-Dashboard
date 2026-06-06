@@ -265,8 +265,8 @@
   .perf-col-leg span{
     color:#4a6a88;text-align:right;
   }
-  .perf-col-leg .lc-plan  {width:46px;color:#38bdf8;}
-  .perf-col-leg .lc-actual{width:46px;}
+  .perf-col-leg .lc-plan  {width:46px;color:#f28c28;}
+  .perf-col-leg .lc-actual{width:46px;color:#32d26e;}
   .perf-col-leg .lc-var   {width:50px;}
 
   /* Body */
@@ -292,26 +292,21 @@
     position:relative;height:9px;
     background:rgba(120,165,210,.13);border-radius:4px;overflow:visible;
   }
-  /* Plan bar — cyan, full opacity, sits behind actual bar */
+  /* Plan bar — orange */
   .perf-bar-plan{
     position:absolute;top:0;left:0;height:100%;border-radius:4px;
-    background:linear-gradient(90deg,#0e6ea8,#38bdf8);
-    opacity:1;
-    box-shadow:0 0 6px rgba(56,189,248,.35);
+    background:#f28c28;
     animation:grow 1s cubic-bezier(.2,.8,.2,1) both;
   }
-  /* Actual bar: unified deep-blue — sits on top of cyan plan bar */
+  /* Actual bar — green */
   .perf-bar-actual{
     position:absolute;top:0;left:0;height:100%;border-radius:4px;
-    background:linear-gradient(90deg,#1b4f8a,#2d7dd2);
-    box-shadow:0 0 7px rgba(45,125,210,.45);
+    background:#32d26e;
     animation:grow 1s cubic-bezier(.2,.8,.2,1) both;
   }
-  /* Color classes kept for VAR column — bars themselves no longer use them */
-  .perf-bar-actual.good,.perf-bar-actual.mild,.perf-bar-actual.warn{
-    background:linear-gradient(90deg,#1b4f8a,#2d7dd2);
-    box-shadow:0 0 7px rgba(45,125,210,.45);
-  }
+  .perf-bar-actual.good,
+  .perf-bar-actual.mild,
+  .perf-bar-actual.warn{ background:#32d26e; }
 
   /* Three numeric columns — Plan % / Actual % / Variance */
   .perf-nums{display:flex;gap:0;flex:none;}
@@ -319,8 +314,8 @@
     font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
     text-align:right;
   }
-  .perf-num.plan  {width:46px;color:#38bdf8;}
-  .perf-num.actual{width:46px;color:#eaf3ff;}
+  .perf-num.plan  {width:46px;color:#f28c28;}
+  .perf-num.actual{width:46px;color:#32d26e;}
   .perf-num.var   {width:50px;}
   .perf-num.var.good{color:#7de89a;}
   .perf-num.var.mild{color:#ffb16b;}
