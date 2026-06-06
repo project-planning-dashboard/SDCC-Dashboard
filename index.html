@@ -291,7 +291,7 @@
   .gi-row.exp .gi-v{color:#ff7a7e;text-shadow:0 0 12px rgba(255,90,95,.5);}
 
   /* ── Export button (screen only) ─────────────────────────── */
-  #pdf-btn{
+  .export-pdf-btn{
     position:fixed;
     bottom:28px;
     right:28px;
@@ -312,69 +312,74 @@
     box-shadow:0 4px 20px rgba(232,119,34,.55), 0 2px 6px rgba(0,0,0,.35);
     transition:transform .15s, box-shadow .15s;
   }
-  #pdf-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,119,34,.7);}
-  #pdf-btn:active{transform:translateY(0);}
-  #pdf-btn svg{flex:none;}
+  .export-pdf-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,119,34,.7);}
+  .export-pdf-btn:active{transform:translateY(0);}
+  .export-pdf-btn svg{flex:none;}
+
+  /* ── Page size ────────────────────────────────────────────── */
+  @page{
+    size:A3 landscape;
+    margin:0;
+  }
 
   /* ── Print / PDF styles ───────────────────────────────────── */
   @media print{
-    /* Page setup: A3 landscape */
-    @page{
-      size:A3 landscape;
-      margin:8mm 8mm 8mm 8mm;
+    html,
+    body{
+      width:100%;
+      height:auto;
+      overflow:visible !important;
+      print-color-adjust:exact;
+      -webkit-print-color-adjust:exact;
     }
 
-    /* Hide everything that must not appear in the PDF */
-    #pdf-btn,
+    *{
+      print-color-adjust:exact;
+      -webkit-print-color-adjust:exact;
+    }
+
+    .export-pdf-btn{
+      display:none !important;
+    }
+
+    /* Also hide UI overlays */
     #loading-overlay,
     #error-banner{
       display:none !important;
     }
 
-    /* Reset body so the sheet fills the page */
-    html, body{
-      background:#c9d4de !important;
-      padding:0 !important;
-      margin:0 !important;
-      width:100% !important;
-      height:auto !important;
-    }
-
-    /* Force the dashboard to full width, remove screen shadow */
+    /* Full-width sheet, no screen-only shadow */
+    html{ background:#c9d4de !important; }
+    body{ display:block !important; padding:0 !important; margin:0 !important; }
     .sheet{
       width:100% !important;
       max-width:100% !important;
       box-shadow:none !important;
-      visibility:visible !important;   /* ensure visible even if JS hasn't run */
+      visibility:visible !important;
     }
 
-    /* Force background colours and gradients to print */
-    *{
-      -webkit-print-color-adjust:exact !important;
-      print-color-adjust:exact !important;
-      color-adjust:exact !important;
-    }
-
-    /* Prevent any section from being clipped across pages */
-    .exrow, .chartrow, .timeline-card,
-    .bottom, .excard, .gi-card,
-    .chartcard, .card{
+    /* Prevent cards, timeline, and tables breaking across pages */
+    .card,
+    .timeline-card,
+    table,
+    .chartcard,
+    .excard,
+    .gi-card,
+    .exrow,
+    .chartrow,
+    .bottom{
       break-inside:avoid;
       page-break-inside:avoid;
     }
 
-    /* Keep the footer on the same page as tables */
     .foot{ page-break-before:avoid; }
-
-    /* Remove body padding used for screen centering */
-    body{ display:block !important; }
   }
 </style>
 </head>
 <body>
 
-<!-- Export to PDF button (hidden during printing via @media print) -->
-<button id="pdf-btn" onclick="exportPDF()" title="Export dashboard to PDF">
+<!-- Export to PDF button -->
+<button class="export-pdf-btn" onclick="window.print()" title="Export dashboard to PDF">
   <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
@@ -1010,13 +1015,7 @@ async function loadDashboard() {
 // ── Boot ──
 loadDashboard();
 
-// ── Export to PDF ──
-function exportPDF() {
-  // Ensure dashboard is fully visible before printing
-  var dash = document.getElementById('dashboard');
-  if (dash) dash.style.visibility = 'visible';
-  window.print();
-}
+
 </script>
 </body>
 </html>
