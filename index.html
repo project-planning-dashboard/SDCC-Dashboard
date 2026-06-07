@@ -921,9 +921,10 @@ function renderWorkbook(wb) {
   // Columns: Field | Value | Tag | Notes
   $('comm-body').innerHTML = rows('Commercial_Info').map(function(r){
     var field   = safe(r[0]), val = r[1], tag = r[2];
-    var isAmber = field.includes('Rem. Contingency');
-    var hasTag  = cellVal(tag) !== '' && cellVal(tag) !== null && String(cellVal(tag)).trim() !== '';
-    return xrow(field, val, tag, hasTag ? 'bd' : '', isAmber ? 'amber' : '');
+    var hasTag = cellVal(tag) !== '' && cellVal(tag) !== null && String(cellVal(tag)).trim() !== '';
+    // All commercial values are normal SAR amounts → white
+    // Tag badge on Rem. Contingency keeps its 'bd' class for orange badge
+    return xrow(field, val, tag, hasTag ? 'bd' : '', '');
   }).join('');
 
   // ── 4. Budgetary Info ──────────────────────────────────────
@@ -943,11 +944,11 @@ function renderWorkbook(wb) {
   $('coll-body').innerHTML = rows('Collection_Info').map(function(r){
     var field = safe(r[0]), val = r[1], tag = r[2];
     var colorHint = safe(r[3]).toLowerCase();
+    // Badge colour from Excel color column (independent of value text)
     var tagClass  = colorHint === 'green' ? 'gd' : colorHint === 'amber' ? 'nt' : colorHint === 'red' ? 'bd' : '';
-    // Red only for actual problems (Cash Collected Gap); amber for below-target amounts
+    // Value text: red only for the gap field (actual problem); everything else white
     var fl2 = safe(r[0]).toLowerCase();
-    var vClass = fl2.includes('gap') ? 'red'
-               : colorHint === 'amber' ? 'amber' : '';
+    var vClass = fl2.includes('gap') ? 'red' : '';
     return xrow(field, val, tag, tagClass, vClass);
   }).join('');
 
