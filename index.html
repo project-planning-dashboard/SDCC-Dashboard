@@ -476,10 +476,23 @@
   .pill.del { animation:pillRed    2s   ease-in-out infinite; }
   .pill.ok  { animation:pillGreen  2.5s ease-in-out infinite; }
 
+  /* ── Variance attention (Project Phases & City Progress) ── */
+  @keyframes varBreathRed{
+    0%,100%{ filter:drop-shadow(0 0 1px rgba(255,90,95,.1)); }
+    50%     { filter:drop-shadow(0 0 8px rgba(255,90,95,.9)); }
+  }
+  @keyframes varBreathGreen{
+    0%,100%{ filter:drop-shadow(0 0 1px rgba(70,199,103,.1)); }
+    50%     { filter:drop-shadow(0 0 6px rgba(70,199,103,.7)); }
+  }
+  .attention-critical{ animation:varBreathRed   2.5s ease-in-out infinite; }
+  .attention-good    { animation:varBreathGreen  3s   ease-in-out infinite; }
+
   /* ── Accessibility ── */
   @media(prefers-reduced-motion:reduce){
     #dashboard{ opacity:1 !important; transition:none !important; }
     .animate-in,.value-pop{ animation:none !important; opacity:1 !important; }
+    .attention-critical,.attention-good,
     .cf-hero.pulse-neg,.cf-hero.pulse-pos,
     .mp-total-glow,
     .tcc-box.con,.tcc-box.rev,
@@ -1008,7 +1021,7 @@ function renderWorkbook(wb) {
       '<div class="perf-nums">' +
         '<span class="perf-num plan">'   + plan.toFixed(1)   + '%</span>' +
         '<span class="perf-num actual">' + actual.toFixed(1) + '%</span>' +
-        '<span class="perf-num var ' + (d < 0 ? 'var-negative' : 'var-positive') + '">' + varStr + '</span>' +
+        '<span class="perf-num var ' + (d < 0 ? 'var-negative attention-critical' : 'var-positive attention-good') + '">' + varStr + '</span>' +
       '</div>' +
     '</div>';
   }
