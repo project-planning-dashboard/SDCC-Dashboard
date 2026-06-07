@@ -1011,7 +1011,7 @@ function renderWorkbook(wb) {
   var footMap = {};
   rows('Footer').forEach(function(r){ if(r[0]) footMap[safe(r[0])] = r[1]; });
   $('foot-left').innerHTML    = 'CLASSIFICATION: ' + safe(footMap['Classification']) +
-    ' &nbsp;|&nbsp; Prepared: ' + safe(footMap['Prepared Date']) +
+    ' &nbsp;|&nbsp; Prepared: ' + fmtDate(footMap['Prepared Date']) +
     ' &nbsp;|&nbsp; ' + safe(footMap['Department']);
   $('foot-brand').textContent = safe(footMap['Brand Name']);
 
