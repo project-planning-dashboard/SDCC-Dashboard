@@ -410,8 +410,7 @@
 
   /* ══════════════════════════════════════════════════════════
      TARGETED ATTENTION ANIMATIONS — executive & professional
-     Breathing glow only. No opacity flash. No movement.
-     All keyframes use !important to defeat base box-shadow rules.
+     Uses filter:drop-shadow — no conflict with existing rules.
   ══════════════════════════════════════════════════════════ */
 
   /* Dashboard load fade */
@@ -424,68 +423,67 @@
   .animate-in{ opacity:0; animation:fadeSlideUp .6s cubic-bezier(.2,.8,.2,1) both; }
   .value-pop { animation:fadeSlideUp .55s cubic-bezier(.2,.8,.2,1) both; }
 
-  /* ── 1. Net Cash hero — breathing glow defeats the static box-shadow ── */
+  /* ── 1. Net Cash hero — outer glow via filter ── */
   @keyframes breatheRed{
-    0%,100%{ box-shadow:0 4px 14px rgba(160,22,32,.35) !important; }
-    50%     { box-shadow:0 4px 20px rgba(160,22,32,.6), 0 0 28px rgba(255,90,95,.6) !important; }
+    0%,100%{ filter:drop-shadow(0 0 2px rgba(255,90,95,.1)); }
+    50%     { filter:drop-shadow(0 0 18px rgba(255,90,95,.9))
+                     drop-shadow(0 0 6px rgba(255,90,95,.6)); }
   }
   @keyframes breatheGreen{
-    0%,100%{ box-shadow:0 4px 14px rgba(20,120,60,.35) !important; }
-    50%     { box-shadow:0 4px 20px rgba(20,120,60,.6), 0 0 28px rgba(70,199,103,.6) !important; }
+    0%,100%{ filter:drop-shadow(0 0 2px rgba(70,199,103,.1)); }
+    50%     { filter:drop-shadow(0 0 18px rgba(70,199,103,.9))
+                     drop-shadow(0 0 6px rgba(70,199,103,.6)); }
   }
-  .cf-hero.pulse-neg{ animation:breatheRed   3s ease-in-out infinite !important; }
-  .cf-hero.pulse-pos{ animation:breatheGreen 3s ease-in-out infinite !important; }
+  /* Do NOT put cf-hero in value-pop — it gets its own animation */
+  .cf-hero.pulse-neg{ animation:breatheRed   2s ease-in-out infinite; }
+  .cf-hero.pulse-pos{ animation:breatheGreen 2s ease-in-out infinite; }
 
-  /* ── 2. Total Manpower — filter glow (no conflicting base rule) ── */
+  /* ── 2. Total Manpower number — filter glow ── */
   @keyframes glowOrange{
-    0%,100%{ filter:drop-shadow(0 0 3px rgba(232,119,34,.3)); }
-    50%     { filter:drop-shadow(0 0 12px rgba(232,119,34,.9)); }
+    0%,100%{ filter:drop-shadow(0 0 2px rgba(232,119,34,.2)); }
+    50%     { filter:drop-shadow(0 0 14px rgba(232,119,34,.95))
+                     drop-shadow(0 0 5px rgba(255,180,80,.7)); }
   }
-  .mp-total-glow{ animation:glowOrange 2.8s ease-in-out infinite; }
+  .mp-total-glow{ animation:glowOrange 2s ease-in-out infinite; }
 
-  /* ── 3. TCC callout boxes ── */
-  @keyframes tccBreathOrange{
-    0%,100%{ box-shadow:0 3px 8px rgba(8,24,46,.22) !important; }
-    50%     { box-shadow:0 3px 8px rgba(8,24,46,.3), 0 0 16px rgba(232,119,34,.65) !important; }
+  /* ── 3 & 4. TCC callout boxes — filter glow ── */
+  @keyframes tccOrange{
+    0%,100%{ filter:drop-shadow(0 0 2px rgba(232,119,34,.2)); }
+    50%     { filter:drop-shadow(0 0 12px rgba(232,119,34,.95)); }
   }
-  @keyframes tccBreathRed{
-    0%,100%{ box-shadow:0 3px 8px rgba(8,24,46,.22) !important; }
-    50%     { box-shadow:0 3px 8px rgba(8,24,46,.4), 0 0 22px rgba(255,90,95,.7) !important; }
+  @keyframes tccRed{
+    0%,100%{ filter:drop-shadow(0 0 2px rgba(255,90,95,.2)); }
+    50%     { filter:drop-shadow(0 0 16px rgba(255,90,95,.95)); }
   }
-  .tcc-box.con{ animation:tccBreathOrange 3s   ease-in-out infinite !important; }
-  .tcc-box.rev{ animation:tccBreathRed    2.6s ease-in-out infinite !important; }
+  .tcc-box.con{ animation:tccOrange 2s ease-in-out infinite; }
+  .tcc-box.rev{ animation:tccRed    2s ease-in-out infinite; }
 
-  /* ── 4. Pills — defeat static box-shadow with !important in keyframes ── */
-  @keyframes pillBreathRed{
-    0%,100%{ box-shadow:0 0 8px rgba(255,90,95,.4) !important; }
-    50%     { box-shadow:0 0 18px rgba(255,90,95,.85), 0 0 6px rgba(255,90,95,.5) !important; }
+  /* ── 5 & 6. Pills — filter glow (no box-shadow conflict) ── */
+  @keyframes pillRed{
+    0%,100%{ filter:drop-shadow(0 0 2px rgba(255,90,95,.3)); }
+    50%     { filter:drop-shadow(0 0 10px rgba(255,90,95,.95)); }
   }
-  @keyframes pillBreathOrange{
-    0%,100%{ box-shadow:0 0 8px rgba(241,146,63,.4) !important; }
-    50%     { box-shadow:0 0 18px rgba(241,146,63,.85), 0 0 6px rgba(241,146,63,.5) !important; }
+  @keyframes pillOrange{
+    0%,100%{ filter:drop-shadow(0 0 2px rgba(241,146,63,.3)); }
+    50%     { filter:drop-shadow(0 0 10px rgba(241,146,63,.95)); }
   }
-  @keyframes pillBreathGreen{
-    0%,100%{ box-shadow:0 0 8px rgba(70,199,103,.4) !important; }
-    50%     { box-shadow:0 0 16px rgba(70,199,103,.75) !important; }
+  @keyframes pillGreen{
+    0%,100%{ filter:drop-shadow(0 0 2px rgba(70,199,103,.3)); }
+    50%     { filter:drop-shadow(0 0 8px rgba(70,199,103,.8)); }
   }
-  .pill.high{ animation:pillBreathRed    3s   ease-in-out infinite !important; }
-  .pill.med { animation:pillBreathOrange 3.2s ease-in-out infinite !important; }
-  .pill.del { animation:pillBreathRed    2.8s ease-in-out infinite !important; }
-  .pill.ok  { animation:pillBreathGreen  3.5s ease-in-out infinite !important; }
+  .pill.high{ animation:pillRed    2s   ease-in-out infinite; }
+  .pill.med { animation:pillOrange 2.2s ease-in-out infinite; }
+  .pill.del { animation:pillRed    2s   ease-in-out infinite; }
+  .pill.ok  { animation:pillGreen  2.5s ease-in-out infinite; }
 
-  /* ── Accessibility: kill all attention animations for reduced-motion ── */
+  /* ── Accessibility ── */
   @media(prefers-reduced-motion:reduce){
     #dashboard{ opacity:1 !important; transition:none !important; }
     .animate-in,.value-pop{ animation:none !important; opacity:1 !important; }
-    .cf-hero.pulse-neg,
-    .cf-hero.pulse-pos,
+    .cf-hero.pulse-neg,.cf-hero.pulse-pos,
     .mp-total-glow,
-    .tcc-box.con,
-    .tcc-box.rev,
-    .pill.high,
-    .pill.med,
-    .pill.del,
-    .pill.ok{ animation:none !important; }
+    .tcc-box.con,.tcc-box.rev,
+    .pill.high,.pill.med,.pill.del,.pill.ok{ animation:none !important; }
   }
 
 </style>
@@ -1105,8 +1103,8 @@ function renderWorkbook(wb) {
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
       dash.classList.add('loaded');
-      // Fade-in KPI card bodies
-      dash.querySelectorAll('.xb, .gi-body, .mp-hero, .cf-hero').forEach(
+      // Fade-in KPI card bodies (exclude .cf-hero — has its own animation)
+      dash.querySelectorAll('.xb, .gi-body').forEach(
         function(el){ el.classList.add('value-pop'); });
       // Net Cash hero: breathing glow based on sign
       var hero = dash.querySelector('.cf-hero');
