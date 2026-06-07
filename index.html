@@ -408,46 +408,80 @@
   .gi-row.exp .gi-v{color:#ff7a7e;text-shadow:0 0 12px rgba(255,90,95,.5);}
 
 
-  /* ══ ANIMATION SYSTEM — professional, subtle, executive ══
-     All animations respect prefers-reduced-motion.        */
+  /* ══════════════════════════════════════════════════════════
+     TARGETED ATTENTION ANIMATIONS — executive & professional
+     Breathing glow only. No opacity flash. No movement.
+     Duration 2.5s – 3.5s. Reduced-motion safe.
+  ══════════════════════════════════════════════════════════ */
 
+  /* Dashboard load fade */
   @keyframes fadeSlideUp{
     from{ opacity:0; transform:translateY(10px); }
     to  { opacity:1; transform:translateY(0); }
   }
-  @keyframes softPulse{
-    0%,100%{ opacity:1; }
-    50%     { opacity:.62; }
-  }
-
-  /* Dashboard fades in after data loads */
   #dashboard{ opacity:0; transition:opacity .5s ease; }
   #dashboard.loaded{ opacity:1; }
+  .animate-in{ opacity:0; animation:fadeSlideUp .6s cubic-bezier(.2,.8,.2,1) both; }
+  .value-pop { animation:fadeSlideUp .55s cubic-bezier(.2,.8,.2,1) both; }
 
-  /* Staggered card entrance */
-  .animate-in{
-    opacity:0;
-    animation:fadeSlideUp .6s cubic-bezier(.2,.8,.2,1) both;
+  /* ── 1. Net Cash: red glow when negative ── */
+  @keyframes breatheRed{
+    0%,100%{ box-shadow:0 4px 14px rgba(160,22,32,.3), 0 0 0   rgba(255,90,95,0);   }
+    50%     { box-shadow:0 4px 14px rgba(160,22,32,.55),0 0 22px rgba(255,90,95,.55); }
   }
-
-  /* KPI value fade-in */
-  .value-pop{ animation:fadeSlideUp .55s cubic-bezier(.2,.8,.2,1) both; }
-
-  /* perf-bars inherit the existing grow keyframe */
-  .perf-bar-plan,
-  .perf-bar-actual{
-    animation:grow .95s cubic-bezier(.16,.84,.44,1) both;
+  /* Net Cash: green glow when positive */
+  @keyframes breatheGreen{
+    0%,100%{ box-shadow:0 4px 14px rgba(20,120,60,.3),  0 0 0   rgba(70,199,103,0);   }
+    50%     { box-shadow:0 4px 14px rgba(20,120,60,.55), 0 0 22px rgba(70,199,103,.55); }
   }
+  .cf-hero.pulse-neg{ animation:breatheRed   3s ease-in-out infinite; }
+  .cf-hero.pulse-pos{ animation:breatheGreen 3s ease-in-out infinite; }
 
-  /* Soft pulse — critical negative values only */
-  .soft-pulse{ animation:softPulse 2.8s ease-in-out infinite; }
+  /* ── 2. Total Manpower: orange glow ── */
+  @keyframes breatheOrange{
+    0%,100%{ text-shadow:0 0 16px rgba(255,180,110,.6), 0 0 0   rgba(232,119,34,0);   }
+    50%     { text-shadow:0 0 28px rgba(255,180,110,.9), 0 0 18px rgba(232,119,34,.6); }
+  }
+  .mp-total-glow{ animation:breatheOrange 2.8s ease-in-out infinite; }
 
-  /* Accessibility: disable all animations if user prefers */
+  /* ── 3. TCC boxes: orange & red breathing glow ── */
+  @keyframes tccGlowOrange{
+    0%,100%{ box-shadow:0 3px 8px rgba(8,24,46,.22),  0 0 0    rgba(232,119,34,0);   }
+    50%     { box-shadow:0 3px 8px rgba(8,24,46,.35),  0 0 14px rgba(232,119,34,.6); }
+  }
+  @keyframes tccGlowRed{
+    0%,100%{ box-shadow:0 3px 8px rgba(8,24,46,.22),  0 0 0    rgba(255,90,95,0);   }
+    50%     { box-shadow:0 3px 8px rgba(8,24,46,.45),  0 0 18px rgba(255,90,95,.65); }
+  }
+  .tcc-box.con{ animation:tccGlowOrange 3s ease-in-out infinite; }
+  .tcc-box.rev{ animation:tccGlowRed    2.6s ease-in-out infinite; }
+
+  /* ── 4. Issue pills ── */
+  @keyframes pillGlowRed{
+    0%,100%{ box-shadow:0 0 10px rgba(255,90,95,.45), 0 0 0    rgba(255,90,95,0);   }
+    50%     { box-shadow:0 0 10px rgba(255,90,95,.6),  0 0 16px rgba(255,90,95,.55); }
+  }
+  @keyframes pillGlowOrange{
+    0%,100%{ box-shadow:0 0 10px rgba(241,146,63,.45), 0 0 0    rgba(241,146,63,0);   }
+    50%     { box-shadow:0 0 10px rgba(241,146,63,.6),  0 0 14px rgba(241,146,63,.5); }
+  }
+  @keyframes pillGlowGreen{
+    0%,100%{ box-shadow:0 0 10px rgba(70,199,103,.45); }
+    50%     { box-shadow:0 0 16px rgba(70,199,103,.65); }
+  }
+  .pill.high{ animation:pillGlowRed    3s   ease-in-out infinite; }
+  .pill.med { animation:pillGlowOrange 3.2s ease-in-out infinite; }
+  .pill.del { animation:pillGlowRed    2.8s ease-in-out infinite; }
+  .pill.ok  { animation:pillGlowGreen  3.5s ease-in-out infinite; }
+
+  /* ── Accessibility ── */
   @media(prefers-reduced-motion:reduce){
     #dashboard{ opacity:1 !important; transition:none !important; }
     .animate-in,.value-pop{ animation:none !important; opacity:1 !important; }
-    .soft-pulse{ animation:none !important; }
-    .perf-bar-plan,.perf-bar-actual,.cf-fill,.ch-bar{ animation:none !important; }
+    .cf-hero.pulse-neg,.cf-hero.pulse-pos,
+    .mp-total-glow,
+    .tcc-box.con,.tcc-box.rev,
+    .pill.high,.pill.med,.pill.del,.pill.ok{ animation:none !important; }
   }
 
 </style>
@@ -1033,7 +1067,7 @@ function renderWorkbook(wb) {
     var pulseCls = priority === 'HIGH' ? ' soft-pulse' : '';
     return '<tr><td><b>' + num + '</b></td><td>' + issue + '</td><td>' + trade +
            '</td><td>' + entity + '</td><td>' + action +
-           '</td><td><span class="pill ' + pillCls + pulseCls + '">' + priority + '</span></td></tr>';
+           '</td><td><span class="pill ' + pillCls + '">' + priority + '</span></td></tr>';
   }).join('');
 
   // ── 12. Equipment Status ───────────────────────────────────
@@ -1049,7 +1083,7 @@ function renderWorkbook(wb) {
     return '<tr><td><b>' + num + '</b></td><td>' + equip + '</td><td>' + vendor +
            '</td><td class="center">' + po + '</td><td class="center">' + gafm +
            '</td><td class="center">' + fat + '</td><td class="center">' + del +
-           '</td><td class="center"><span class="pill ' + pillCls + pulseCls + '">' + (status||'\u2014') + '</span></td></tr>';
+           '</td><td class="center"><span class="pill ' + pillCls + '">' + (status||'\u2014') + '</span></td></tr>';
   }).join('');
 
   // ── 13. Footer ─────────────────────────────────────────────
@@ -1067,13 +1101,19 @@ function renderWorkbook(wb) {
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
       dash.classList.add('loaded');
-      // Fade-in KPI values
+      // Fade-in KPI card bodies
       dash.querySelectorAll('.xb, .gi-body, .mp-hero, .cf-hero').forEach(
         function(el){ el.classList.add('value-pop'); });
-      // Soft pulse on negative net cash
-      var nb = $('cf-net-big');
-      if (nb && nb.innerHTML.indexOf('<span class="m">-</span>') !== -1)
-        nb.classList.add('soft-pulse');
+      // Net Cash hero: breathing glow based on sign
+      var hero = dash.querySelector('.cf-hero');
+      if (hero) {
+        var nb = $('cf-net-big');
+        var isNeg = nb && nb.innerHTML.indexOf('<span class="m">-</span>') !== -1;
+        hero.classList.add(isNeg ? 'pulse-neg' : 'pulse-pos');
+      }
+      // Manpower total: orange glow
+      var mpTotal = $('mp-total');
+      if (mpTotal) mpTotal.classList.add('mp-total-glow');
     });
   });
 }
