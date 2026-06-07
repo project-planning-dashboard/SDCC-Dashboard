@@ -411,7 +411,7 @@
   /* ══════════════════════════════════════════════════════════
      TARGETED ATTENTION ANIMATIONS — executive & professional
      Breathing glow only. No opacity flash. No movement.
-     Duration 2.5s – 3.5s. Reduced-motion safe.
+     All keyframes use !important to defeat base box-shadow rules.
   ══════════════════════════════════════════════════════════ */
 
   /* Dashboard load fade */
@@ -424,64 +424,68 @@
   .animate-in{ opacity:0; animation:fadeSlideUp .6s cubic-bezier(.2,.8,.2,1) both; }
   .value-pop { animation:fadeSlideUp .55s cubic-bezier(.2,.8,.2,1) both; }
 
-  /* ── 1. Net Cash: red glow when negative ── */
+  /* ── 1. Net Cash hero — breathing glow defeats the static box-shadow ── */
   @keyframes breatheRed{
-    0%,100%{ box-shadow:0 4px 14px rgba(160,22,32,.3), 0 0 0   rgba(255,90,95,0);   }
-    50%     { box-shadow:0 4px 14px rgba(160,22,32,.55),0 0 22px rgba(255,90,95,.55); }
+    0%,100%{ box-shadow:0 4px 14px rgba(160,22,32,.35) !important; }
+    50%     { box-shadow:0 4px 20px rgba(160,22,32,.6), 0 0 28px rgba(255,90,95,.6) !important; }
   }
-  /* Net Cash: green glow when positive */
   @keyframes breatheGreen{
-    0%,100%{ box-shadow:0 4px 14px rgba(20,120,60,.3),  0 0 0   rgba(70,199,103,0);   }
-    50%     { box-shadow:0 4px 14px rgba(20,120,60,.55), 0 0 22px rgba(70,199,103,.55); }
+    0%,100%{ box-shadow:0 4px 14px rgba(20,120,60,.35) !important; }
+    50%     { box-shadow:0 4px 20px rgba(20,120,60,.6), 0 0 28px rgba(70,199,103,.6) !important; }
   }
-  .cf-hero.pulse-neg{ animation:breatheRed   3s ease-in-out infinite; }
-  .cf-hero.pulse-pos{ animation:breatheGreen 3s ease-in-out infinite; }
+  .cf-hero.pulse-neg{ animation:breatheRed   3s ease-in-out infinite !important; }
+  .cf-hero.pulse-pos{ animation:breatheGreen 3s ease-in-out infinite !important; }
 
-  /* ── 2. Total Manpower: orange glow ── */
-  @keyframes breatheOrange{
-    0%,100%{ text-shadow:0 0 16px rgba(255,180,110,.6), 0 0 0   rgba(232,119,34,0);   }
-    50%     { text-shadow:0 0 28px rgba(255,180,110,.9), 0 0 18px rgba(232,119,34,.6); }
+  /* ── 2. Total Manpower — filter glow (no conflicting base rule) ── */
+  @keyframes glowOrange{
+    0%,100%{ filter:drop-shadow(0 0 3px rgba(232,119,34,.3)); }
+    50%     { filter:drop-shadow(0 0 12px rgba(232,119,34,.9)); }
   }
-  .mp-total-glow{ animation:breatheOrange 2.8s ease-in-out infinite; }
+  .mp-total-glow{ animation:glowOrange 2.8s ease-in-out infinite; }
 
-  /* ── 3. TCC boxes: orange & red breathing glow ── */
-  @keyframes tccGlowOrange{
-    0%,100%{ box-shadow:0 3px 8px rgba(8,24,46,.22),  0 0 0    rgba(232,119,34,0);   }
-    50%     { box-shadow:0 3px 8px rgba(8,24,46,.35),  0 0 14px rgba(232,119,34,.6); }
+  /* ── 3. TCC callout boxes ── */
+  @keyframes tccBreathOrange{
+    0%,100%{ box-shadow:0 3px 8px rgba(8,24,46,.22) !important; }
+    50%     { box-shadow:0 3px 8px rgba(8,24,46,.3), 0 0 16px rgba(232,119,34,.65) !important; }
   }
-  @keyframes tccGlowRed{
-    0%,100%{ box-shadow:0 3px 8px rgba(8,24,46,.22),  0 0 0    rgba(255,90,95,0);   }
-    50%     { box-shadow:0 3px 8px rgba(8,24,46,.45),  0 0 18px rgba(255,90,95,.65); }
+  @keyframes tccBreathRed{
+    0%,100%{ box-shadow:0 3px 8px rgba(8,24,46,.22) !important; }
+    50%     { box-shadow:0 3px 8px rgba(8,24,46,.4), 0 0 22px rgba(255,90,95,.7) !important; }
   }
-  .tcc-box.con{ animation:tccGlowOrange 3s ease-in-out infinite; }
-  .tcc-box.rev{ animation:tccGlowRed    2.6s ease-in-out infinite; }
+  .tcc-box.con{ animation:tccBreathOrange 3s   ease-in-out infinite !important; }
+  .tcc-box.rev{ animation:tccBreathRed    2.6s ease-in-out infinite !important; }
 
-  /* ── 4. Issue pills ── */
-  @keyframes pillGlowRed{
-    0%,100%{ box-shadow:0 0 10px rgba(255,90,95,.45), 0 0 0    rgba(255,90,95,0);   }
-    50%     { box-shadow:0 0 10px rgba(255,90,95,.6),  0 0 16px rgba(255,90,95,.55); }
+  /* ── 4. Pills — defeat static box-shadow with !important in keyframes ── */
+  @keyframes pillBreathRed{
+    0%,100%{ box-shadow:0 0 8px rgba(255,90,95,.4) !important; }
+    50%     { box-shadow:0 0 18px rgba(255,90,95,.85), 0 0 6px rgba(255,90,95,.5) !important; }
   }
-  @keyframes pillGlowOrange{
-    0%,100%{ box-shadow:0 0 10px rgba(241,146,63,.45), 0 0 0    rgba(241,146,63,0);   }
-    50%     { box-shadow:0 0 10px rgba(241,146,63,.6),  0 0 14px rgba(241,146,63,.5); }
+  @keyframes pillBreathOrange{
+    0%,100%{ box-shadow:0 0 8px rgba(241,146,63,.4) !important; }
+    50%     { box-shadow:0 0 18px rgba(241,146,63,.85), 0 0 6px rgba(241,146,63,.5) !important; }
   }
-  @keyframes pillGlowGreen{
-    0%,100%{ box-shadow:0 0 10px rgba(70,199,103,.45); }
-    50%     { box-shadow:0 0 16px rgba(70,199,103,.65); }
+  @keyframes pillBreathGreen{
+    0%,100%{ box-shadow:0 0 8px rgba(70,199,103,.4) !important; }
+    50%     { box-shadow:0 0 16px rgba(70,199,103,.75) !important; }
   }
-  .pill.high{ animation:pillGlowRed    3s   ease-in-out infinite; }
-  .pill.med { animation:pillGlowOrange 3.2s ease-in-out infinite; }
-  .pill.del { animation:pillGlowRed    2.8s ease-in-out infinite; }
-  .pill.ok  { animation:pillGlowGreen  3.5s ease-in-out infinite; }
+  .pill.high{ animation:pillBreathRed    3s   ease-in-out infinite !important; }
+  .pill.med { animation:pillBreathOrange 3.2s ease-in-out infinite !important; }
+  .pill.del { animation:pillBreathRed    2.8s ease-in-out infinite !important; }
+  .pill.ok  { animation:pillBreathGreen  3.5s ease-in-out infinite !important; }
 
-  /* ── Accessibility ── */
+  /* ── Accessibility: kill all attention animations for reduced-motion ── */
   @media(prefers-reduced-motion:reduce){
     #dashboard{ opacity:1 !important; transition:none !important; }
     .animate-in,.value-pop{ animation:none !important; opacity:1 !important; }
-    .cf-hero.pulse-neg,.cf-hero.pulse-pos,
+    .cf-hero.pulse-neg,
+    .cf-hero.pulse-pos,
     .mp-total-glow,
-    .tcc-box.con,.tcc-box.rev,
-    .pill.high,.pill.med,.pill.del,.pill.ok{ animation:none !important; }
+    .tcc-box.con,
+    .tcc-box.rev,
+    .pill.high,
+    .pill.med,
+    .pill.del,
+    .pill.ok{ animation:none !important; }
   }
 
 </style>
