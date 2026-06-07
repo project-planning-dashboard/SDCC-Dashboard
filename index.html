@@ -1072,7 +1072,9 @@ function renderWorkbook(wb) {
   // Columns: Month | Has Milestone | Milestone Text | Flag Position |
   //          Is TCC | TCC Label | TCC Date | Notes
   $('timeline-months').innerHTML = rows('Timeline').map(function(r){
-    var month    = fmtDate(r[0]);  // column A — may be serial or "MMM-yy" string
+    var _rawMonth = fmtDate(r[0]);  // column A — may be serial or string
+    // Strip leading dd- if present (serial dates format as dd-MMM-yy, we want MMM-yy)
+    var month = _rawMonth.replace(/^\d{1,2}-([A-Za-z]{3}-\d{2,4})$/, '$1');
     var hasMile  = safe(r[1]).toUpperCase() === 'YES';
     var mileText = safe(r[2]);
     var flagPos  = safe(r[3]).toLowerCase();
