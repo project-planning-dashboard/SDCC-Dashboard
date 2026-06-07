@@ -407,6 +407,49 @@
   .gi-v{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.4px;color:#f2f8ff;font-variant-numeric:tabular-nums;}
   .gi-row.exp .gi-v{color:#ff7a7e;text-shadow:0 0 12px rgba(255,90,95,.5);}
 
+
+  /* ══ ANIMATION SYSTEM — professional, subtle, executive ══
+     All animations respect prefers-reduced-motion.        */
+
+  @keyframes fadeSlideUp{
+    from{ opacity:0; transform:translateY(10px); }
+    to  { opacity:1; transform:translateY(0); }
+  }
+  @keyframes softPulse{
+    0%,100%{ opacity:1; }
+    50%     { opacity:.62; }
+  }
+
+  /* Dashboard fades in after data loads */
+  #dashboard{ opacity:0; transition:opacity .5s ease; }
+  #dashboard.loaded{ opacity:1; }
+
+  /* Staggered card entrance */
+  .animate-in{
+    opacity:0;
+    animation:fadeSlideUp .6s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  /* KPI value fade-in */
+  .value-pop{ animation:fadeSlideUp .55s cubic-bezier(.2,.8,.2,1) both; }
+
+  /* perf-bars inherit the existing grow keyframe */
+  .perf-bar-plan,
+  .perf-bar-actual{
+    animation:grow .95s cubic-bezier(.16,.84,.44,1) both;
+  }
+
+  /* Soft pulse — critical negative values only */
+  .soft-pulse{ animation:softPulse 2.8s ease-in-out infinite; }
+
+  /* Accessibility: disable all animations if user prefers */
+  @media(prefers-reduced-motion:reduce){
+    #dashboard{ opacity:1 !important; transition:none !important; }
+    .animate-in,.value-pop{ animation:none !important; opacity:1 !important; }
+    .soft-pulse{ animation:none !important; }
+    .perf-bar-plan,.perf-bar-actual,.cf-fill,.ch-bar{ animation:none !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -433,7 +476,7 @@
   <div class="exrow">
 
     <!-- Projects' General Info -->
-    <div class="gi-card">
+    <div class="gi-card animate-in" style="animation-delay:.05s">
       <div class="gi-head">
         <div class="gi-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4M7.5 13h3M7.5 17h3M14 13h2.5M14 17h2.5"/></svg></div>
         <h3>Projects' General Info</h3>
@@ -444,25 +487,25 @@
     </div>
 
     <!-- Commercial Info -->
-    <div class="excard">
+    <div class="excard animate-in" style="animation-delay:.10s">
       <div class="xh"><span class="dot"></span><h3>Commercial Info</h3><span class="unit">SAR</span></div>
       <div class="xb" id="comm-body"><!-- populated by JS --></div>
     </div>
 
     <!-- Budgetary Info -->
-    <div class="excard">
+    <div class="excard animate-in" style="animation-delay:.15s">
       <div class="xh"><span class="dot"></span><h3>Budgetary Info</h3><span class="unit">POC</span></div>
       <div class="xb" id="budg-body"><!-- populated by JS --></div>
     </div>
 
     <!-- Collection Info -->
-    <div class="excard">
+    <div class="excard animate-in" style="animation-delay:.20s">
       <div class="xh"><span class="dot"></span><h3>Collection Info</h3><span class="unit">SAR</span></div>
       <div class="xb" id="coll-body"><!-- populated by JS --></div>
     </div>
 
     <!-- Cash Flow Status -->
-    <div class="excard cf-card">
+    <div class="excard cf-card animate-in" style="animation-delay:.25s">
       <div class="xh"><span class="dot"></span><h3>Cash Flow Status</h3><span class="unit">SAR M</span></div>
       <div class="xb">
         <div class="cf-hero">
@@ -484,7 +527,7 @@
     </div>
 
     <!-- Manpower Status -->
-    <div class="excard mp-card">
+    <div class="excard mp-card animate-in" style="animation-delay:.30s">
       <div class="xh"><span class="dot"></span><h3>Manpower Status</h3><span class="unit">HEADS</span></div>
       <div class="xb">
         <div class="mp-hero">
@@ -513,7 +556,7 @@
   <div class="perf-section">
 
     <!-- LEFT: Project Phases — Plan vs Actual -->
-    <div class="perf-card">
+    <div class="perf-card animate-in" style="animation-delay:.35s">
       <div class="perf-head">
         <div class="ttl"><span class="dot"></span>Project Phases &mdash; Plan vs Actual</div>
         <div class="perf-col-leg">
@@ -526,7 +569,7 @@
     </div>
 
     <!-- RIGHT: Progress per City — Plan vs Actual -->
-    <div class="perf-card">
+    <div class="perf-card animate-in" style="animation-delay:.40s">
       <div class="perf-head">
         <div class="ttl"><span class="dot"></span>Progress per City &mdash; Plan vs Actual</div>
         <div class="perf-col-leg">
@@ -987,9 +1030,10 @@ function renderWorkbook(wb) {
     var entity = safe(r[3]), action = safe(r[4]);
     var priority = safe(r[5]).toUpperCase();
     var pillCls  = priority === 'HIGH' ? 'high' : priority === 'MEDIUM' ? 'med' : 'dash';
+    var pulseCls = priority === 'HIGH' ? ' soft-pulse' : '';
     return '<tr><td><b>' + num + '</b></td><td>' + issue + '</td><td>' + trade +
            '</td><td>' + entity + '</td><td>' + action +
-           '</td><td><span class="pill ' + pillCls + '">' + priority + '</span></td></tr>';
+           '</td><td><span class="pill ' + pillCls + pulseCls + '">' + priority + '</span></td></tr>';
   }).join('');
 
   // ── 12. Equipment Status ───────────────────────────────────
@@ -1000,11 +1044,12 @@ function renderWorkbook(wb) {
     var po   = safe(r[3]);
     var gafm = fmt(r[4]), fat = fmt(r[5]);
     var del    = fmt(r[6]), status = safe(r[7]).toUpperCase();
-    var pillCls = status === 'OK' ? 'ok' : status === 'DELAYED' ? 'del' : 'dash';
+    var pillCls  = status === 'OK' ? 'ok' : status === 'DELAYED' ? 'del' : 'dash';
+    var pulseCls = status === 'DELAYED' ? ' soft-pulse' : '';
     return '<tr><td><b>' + num + '</b></td><td>' + equip + '</td><td>' + vendor +
            '</td><td class="center">' + po + '</td><td class="center">' + gafm +
            '</td><td class="center">' + fat + '</td><td class="center">' + del +
-           '</td><td class="center"><span class="pill ' + pillCls + '">' + (status||'\u2014') + '</span></td></tr>';
+           '</td><td class="center"><span class="pill ' + pillCls + pulseCls + '">' + (status||'\u2014') + '</span></td></tr>';
   }).join('');
 
   // ── 13. Footer ─────────────────────────────────────────────
@@ -1015,9 +1060,22 @@ function renderWorkbook(wb) {
     ' &nbsp;|&nbsp; ' + safe(footMap['Department']);
   $('foot-brand').textContent = safe(footMap['Brand Name']);
 
-  // ── Reveal ─────────────────────────────────────────────────
+  // ── Reveal with animation ─────────────────────────────────
   $('loading-overlay').style.display = 'none';
-  setTimeout(function(){ $('dashboard').style.visibility = 'visible'; }, 400);
+  var dash = $('dashboard');
+  dash.style.visibility = 'visible';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      dash.classList.add('loaded');
+      // Fade-in KPI values
+      dash.querySelectorAll('.xb, .gi-body, .mp-hero, .cf-hero').forEach(
+        function(el){ el.classList.add('value-pop'); });
+      // Soft pulse on negative net cash
+      var nb = $('cf-net-big');
+      if (nb && nb.innerHTML.indexOf('<span class="m">-</span>') !== -1)
+        nb.classList.add('soft-pulse');
+    });
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════
