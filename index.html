@@ -136,12 +136,12 @@
   .xrow:last-child{border-bottom:none;}
   .xrow .k{color:#aac4e0;display:flex;align-items:center;gap:6px;letter-spacing:.1px;}
   .xrow .k::before{content:"";width:5px;height:5px;border-radius:2px;background:#3a7fc4;transform:rotate(45deg);flex:none;box-shadow:0 0 6px rgba(56,138,221,.85);}
-  .xrow .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;color:#f2f8ff;font-variant-numeric:tabular-nums;letter-spacing:.4px;}
+  .xrow .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;color:#f8fafc;font-variant-numeric:tabular-nums;letter-spacing:.4px;}
   .xrow .v .tag{font-family:'Barlow',sans-serif;font-size:9.5px;font-weight:700;margin-left:5px;padding:1px 5px;border-radius:20px;letter-spacing:.2px;}
   .tag.gd{background:rgba(70,199,103,.18);color:#7de89a;border:1px solid rgba(70,199,103,.45);}
   .tag.bd{background:rgba(255,90,95,.16);color:#ff8d91;border:1px solid rgba(255,90,95,.45);}
   .tag.nt{background:rgba(241,146,63,.16);color:#ffb16b;border:1px solid rgba(241,146,63,.45);}
-  .v.red{color:#ff7a7e;text-shadow:0 0 12px rgba(255,90,95,.5);}
+  .v.red{color:#ff6b6b;}
   .v.amber{color:#ffb16b;}
 
   /* ---------- cash flow card ---------- */
@@ -404,8 +404,8 @@
   .gi-row.tcc .gi-bullet{background:#f1923f;box-shadow:0 0 7px rgba(241,146,63,.9);}
   .gi-row.exp .gi-bullet{background:#ff5a5f;box-shadow:0 0 8px rgba(255,90,95,.95);}
   .gi-k{font-size:11px;font-weight:400;color:#aac4e0;letter-spacing:.1px;}
-  .gi-v{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.4px;color:#f2f8ff;font-variant-numeric:tabular-nums;}
-  .gi-row.exp .gi-v{color:#ff7a7e;text-shadow:0 0 12px rgba(255,90,95,.5);}
+  .gi-v{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.4px;color:#f8fafc;font-variant-numeric:tabular-nums;}
+  .gi-row.exp .gi-v{color:#ff6b6b;}
 
 
   /* ══════════════════════════════════════════════════════════
@@ -931,8 +931,9 @@ function renderWorkbook(wb) {
   $('budg-body').innerHTML = rows('Budgetary_Info').map(function(r){
     var field = safe(r[0]), val = r[1], tag = r[2];
     var fl = field.toLowerCase(), vClass = '';
-    if (fl.includes('actual poc') || fl.includes('eot status')) vClass = 'red';
-    else if (fl.includes('contingency used'))                    vClass = 'amber';
+    if (fl.includes('eot status'))        vClass = 'red';   // problem
+    else if (fl.includes('actual poc') ||
+             fl.includes('contingency used')) vClass = 'amber'; // warning
     var hasTag = cellVal(tag) !== '' && cellVal(tag) !== null && String(cellVal(tag)).trim() !== '';
     return xrow(field, val, tag, hasTag ? 'bd' : '', vClass);
   }).join('');
@@ -943,7 +944,10 @@ function renderWorkbook(wb) {
     var field = safe(r[0]), val = r[1], tag = r[2];
     var colorHint = safe(r[3]).toLowerCase();
     var tagClass  = colorHint === 'green' ? 'gd' : colorHint === 'amber' ? 'nt' : colorHint === 'red' ? 'bd' : '';
-    var vClass    = colorHint === 'red' ? 'red' : colorHint === 'amber' ? 'amber' : '';
+    // Red only for actual problems (Cash Collected Gap); amber for below-target amounts
+    var fl2 = safe(r[0]).toLowerCase();
+    var vClass = fl2.includes('gap') ? 'red'
+               : colorHint === 'amber' ? 'amber' : '';
     return xrow(field, val, tag, tagClass, vClass);
   }).join('');
 
